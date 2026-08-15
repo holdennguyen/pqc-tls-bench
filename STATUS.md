@@ -1,4 +1,15 @@
-# STATUS — what ran, what's next (15 Aug, evening)
+# STATUS — what ran, what's next (16 Aug, night)
+
+## Day-1 gate: GREEN (16 Aug, Claude Code on the Mac)
+- Self-signed ECDSA P-256 cert (SANs for all service hostnames) generated in-container.
+- nginx:mainline (1.31.3, OpenSSL 3.5.6) + alpine/openssl (3.5.7) — both >= 3.5, NO plan B
+  needed; digests pinned in compose.yml.
+- Both nginx modes up (hybrid :8443, classic :8444); not-yet-built services parked in the
+  compose "full" profile so `make up` works today.
+- `make verify` prints "Negotiated group: X25519MLKEM768" (hybrid) / "X25519" (classic);
+  gates/gate_tls.sh PASS. Note: OpenSSL -brief prints classical groups as "Peer Temp Key",
+  hybrids as "Negotiated TLS1.3 group" — verify/gate normalize both.
+
 
 ## Executed from Cowork cloud (verified, real)
 - OpenSSL 3.5.4 built from source → confirmed ML-KEM-512/768/1024 and hybrid groups
