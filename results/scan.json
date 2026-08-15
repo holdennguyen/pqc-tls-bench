@@ -1,0 +1,737 @@
+{
+ "meta": {
+  "when": "2026-08-15 14:17",
+  "openssl": "OpenSSL 3.5.4 30 Sep 2025 (Library: OpenSSL 3.5.4 30 Sep 2025)",
+  "method": "one TLS1.3 handshake per host offering X25519MLKEM768:X25519, no HTTP, 5s timeout, no retries"
+ },
+ "results": [
+  {
+   "host": "google.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "youtube.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "facebook.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "instagram.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "x.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "wikipedia.org",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "reddit.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "amazon.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "tiktok.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "bing.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "linkedin.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "netflix.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "openai.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "anthropic.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "cloudflare.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "github.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "gitlab.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "stackoverflow.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "apple.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "microsoft.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "office.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "zoom.us",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "dropbox.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "salesforce.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "oracle.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "ibm.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "intel.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "amd.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "nvidia.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "mozilla.org",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "duckduckgo.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "yahoo.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "ebay.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "paypal.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "stripe.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "shopify.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "etsy.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "booking.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "airbnb.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "agoda.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "grab.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "spotify.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "twitch.tv",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "discord.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "slack.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "notion.so",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "figma.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "canva.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "medium.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "substack.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "nytimes.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "theguardian.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "bbc.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "cnn.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "reuters.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "bloomberg.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "vnexpress.net",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "tuoitre.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "thanhnien.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "dantri.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "zingnews.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "vietnamnet.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "24h.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "kenh14.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "cafef.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "vtv.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "fpt.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "fpt.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "viettel.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "vnpt.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "mobifone.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "tiki.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "shopee.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "lazada.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "sendo.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "thegioididong.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "fptshop.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "cellphones.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "vietcombank.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "techcombank.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "vietinbank.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "bidv.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "mbbank.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "tpb.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "vpbank.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "acb.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "sacombank.com.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "momo.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "zalopay.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "vnpay.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "baochinhphu.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "chinhphu.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "moh.gov.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "most.gov.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "edu.vn",
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "connect:errno=0"
+  },
+  {
+   "host": "nttu.edu.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "hcmus.edu.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "hust.edu.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "uit.edu.vn",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "opswat.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "kaspersky.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "crowdstrike.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "paloaltonetworks.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  },
+  {
+   "host": "fortinet.com",
+   "status": "ok",
+   "negotiated_group": "X25519",
+   "supports_pqc": false,
+   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+  }
+ ]
+}

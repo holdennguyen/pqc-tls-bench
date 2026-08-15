@@ -1,0 +1,33 @@
+# PIN DIGESTS before benchmarking (docker inspect --format='{{index .RepoDigests 0}}')
+# Requirement: every image's OpenSSL >= 3.5  (check: docker run --rm IMG openssl version)
+services:
+  nginx-hybrid:
+    image: nginx:mainline   # TODO(claude-code): verify openssl >=3.5, else openquantumsafe/nginx; pin digest
+    volumes: [ "./nginx/hybrid.conf:/etc/nginx/conf.d/default.conf:ro", "./certs:/certs:ro" ]
+    ports: [ "8443:443" ]
+  nginx-classic:
+    image: nginx:mainline
+    volumes: [ "./nginx/classic.conf:/etc/nginx/conf.d/default.conf:ro", "./certs:/certs:ro" ]
+    ports: [ "8444:443" ]
+  api-python:
+    build: ./services/api-python
+    environment: [ "POOL=10" ]
+  api-node:
+    build: ./services/api-node
+    environment: [ "POOL=10" ]
+  postgres:
+    image: postgres:18      # trixie-based → OpenSSL 3.5; verify + pin
+    environment: [ "POSTGRES_PASSWORD=bench" ]
+    # TODO: ssl=on + certs via command/volume
+  redis:
+    image: redis:8          # verify + pin; tls-port 6379, port 0
+  openssl-client:
+    image: alpine/openssl:latest   # verify openssl >=3.5; used by make verify + probe
+    command: sleep infinity
+  # TODO(claude-code): k6, prometheus, grafana, cadvisor, tshark sidecar, netem variant
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest  # pin digest
+    volumes: [ "./otel/collector.yaml:/etc/otelcol-contrib/config.yaml:ro" ]
+  jaeger:
+    image: jaegertracing/all-in-one:latest              # pin digest
+    ports: [ "16686:16686" ]
