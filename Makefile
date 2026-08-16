@@ -27,6 +27,9 @@ gates:
 	done; printf "\n---- gate summary ----$$summary\n"; \
 	[ $$fail -eq 0 ] && echo "GATES: GREEN (no failures)" || { echo "GATES: RED"; exit 1; }
 bench:
-	bash bench/run_all.sh
+	sh bench/run_all.sh
+# scan runs in-container: needs a FULL OpenSSL 3.5 client (see pqscan.py FIELD NOTE)
 scan:
-	python3 pqscan/pqscan.py pqscan/hosts.txt -o results/scan.json
+	docker run --rm -v "$(PWD)/pqscan:/pqscan:ro" -v "$(PWD)/results:/results" \
+	  python:3.13-slim-trixie@sha256:ffb752e139c0a19692a43af8d8523b274222dd68eebad5d583b45c2201c6e30a \
+	  python3 /pqscan/pqscan.py /pqscan/hosts.txt -o /results/scan.json --html /results/scan.html

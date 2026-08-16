@@ -1,4 +1,5 @@
 results/*.pcap
+results/bench_run.log
 certs/*.key
 node_modules/
 __pycache__/
