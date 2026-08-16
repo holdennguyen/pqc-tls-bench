@@ -22,14 +22,16 @@ Mở sẵn 5 tab: `https://localhost:8443` · `https://localhost:8444` · `:8443
   qua 3 chặng TLS, tất cả trong một trace."
 
 ## 4. Dashboard dưới tải trực tiếp (2 phút — điểm nhấn)
-- Chạy tải live ở terminal (2 lệnh, mỗi lệnh một cổng):
+- Chạy tải live ở terminal (2 lệnh, mỗi lệnh một cổng). `WARMUP=1` là CHỦ ĐÍCH:
+  vẫn stream metrics lên Grafana nhưng không ghi file summary vào results/
+  (file demo lạc vào results/ sẽ làm gate_bench đỏ):
   ```
   docker compose --profile bench run --rm -d k6 run /scripts/scenario.js \
-    -e MODE=hybrid -e PROFILE=churn -e RATE=30 -e DURATION=3m -e REP=9 -e RTT=0 \
-    -o experimental-prometheus-rw
+    -e MODE=hybrid -e PROFILE=churn -e RATE=30 -e DURATION=3m -e REP=9 -e RTT=0 -e WARMUP=1 \
+    -o experimental-prometheus-rw --tag testid=hybrid-churn-live --tag mode=hybrid --tag profile=churn
   docker compose --profile bench run --rm -d k6 run /scripts/scenario.js \
-    -e MODE=classic -e PROFILE=churn -e RATE=30 -e DURATION=3m -e REP=9 -e RTT=0 \
-    -o experimental-prometheus-rw
+    -e MODE=classic -e PROFILE=churn -e RATE=30 -e DURATION=3m -e REP=9 -e RTT=0 -e WARMUP=1 \
+    -o experimental-prometheus-rw --tag testid=classic-churn-live --tag mode=classic --tag profile=churn
   ```
 - Grafana: hai stat tile trên cùng (ĐỎ vs XANH) chênh nhau ~X ms; đồ thị p95 hai đường
   tách rõ ở churn, đường pooled (nét đứt) gần như trùng nhau → giả thuyết khấu hao.

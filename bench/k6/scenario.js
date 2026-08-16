@@ -20,7 +20,9 @@ export const options = {
   noConnectionReuse: PROFILE === 'churn',
   noVUConnectionReuse: PROFILE === 'churn',
   summaryTrendStats: ['avg', 'min', 'med', 'p(90)', 'p(95)', 'p(99)', 'max', 'count'],
-  tags: { mode: MODE, profile: PROFILE, rate: String(RATE), rtt: RTT, rep: REP },
+  // NOTE: do NOT put run metadata in options.tags — those tags never reach the
+  // prometheus remote-write output (verified 2026-08-16). Pass them on the CLI:
+  //   --tag testid=... --tag mode=... --tag profile=... (see run_all.sh / DEMO.md)
   scenarios: {
     clinic: {
       executor: 'constant-arrival-rate',

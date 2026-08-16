@@ -37,8 +37,16 @@ def scan_host(host, openssl_bin, timeout=5):
         m = GROUP_RE.search(out)
         group = m.group(1) if m else None
         if group is None:
-            return {"host": host, "status": "error", "negotiated_group": None,
-                    "supports_pqc": None, "note": out.strip().splitlines()[-1][:160] if out.strip() else "no response"}
+            # Distinguish "server unreachable/refused" from "TLS worked but WE failed to
+            # parse the group" — the latter is a scanner regression (the false-0% class)
+            # and must be loud, never counted as a host-side error.
+            connected = "CONNECTION ESTABLISHED" in out or "Protocol version:" in out
+            status = "parse-error" if connected else "error"
+            note = ("TLS connected but no group parsed — GROUP_RE regression? raw tail: "
+                    + out.strip().splitlines()[-1][:100]) if connected else \
+                   (out.strip().splitlines()[-1][:160] if out.strip() else "no response")
+            return {"host": host, "status": status, "negotiated_group": None,
+                    "supports_pqc": None, "note": note}
         pqc = "MLKEM" in group.upper()
         return {"host": host, "status": "ok", "negotiated_group": group, "supports_pqc": pqc,
                 "note": ("Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
@@ -91,11 +99,36 @@ def render_html(results, meta):
 <p class="sub" style="margin-top:14px">Khóa luận tốt nghiệp — Nguyễn Minh Hùng, ĐH Nguyễn Tất Thành, 2026. Dữ liệu thô: scan.json.</p>
 </div></body></html>"""
 
+CANARY = "pq.cloudflareresearch.com"  # known PQC-only-friendly endpoint
+
+
+def selfcheck(openssl_bin):
+    """Refuse to scan with a client that can't prove hybrid capability (FIELD NOTE,
+    automated). One handshake offering ONLY the hybrid group: success requires the
+    client to emit an ML-KEM key_share AND our regex to parse the result."""
+    cmd = [openssl_bin, "s_client", "-connect", f"{CANARY}:443", "-servername", CANARY,
+           "-groups", "X25519MLKEM768", "-brief"]
+    try:
+        r = subprocess.run(cmd, input=b"", capture_output=True, timeout=10)
+    except subprocess.TimeoutExpired:
+        sys.exit(f"SELF-CHECK INCONCLUSIVE: {CANARY} unreachable (offline?). "
+                 f"Refusing to scan blind — a broken client yields a false 0%.")
+    out = (r.stdout + r.stderr).decode(errors="replace")
+    m = GROUP_RE.search(out)
+    if not m or "MLKEM" not in m.group(1).upper():
+        sys.exit("SELF-CHECK FAILED: client did not negotiate X25519MLKEM768 with "
+                 f"{CANARY} (got: {m.group(1) if m else 'no group parsed'}). Either this "
+                 "openssl cannot emit ML-KEM key_shares (need full OpenSSL >= 3.5) or "
+                 "GROUP_RE no longer matches its output. Refusing to produce a false 0%.")
+    print(f"self-check OK: {m.group(1)} negotiated with {CANARY}", flush=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("hostsfile"); ap.add_argument("-o", "--out", default="scan.json")
     ap.add_argument("--html"); ap.add_argument("--openssl", default=os.environ.get("OPENSSL_BIN", "openssl"))
     a = ap.parse_args()
+    selfcheck(a.openssl)
     hosts = [l.strip() for l in open(a.hostsfile) if l.strip() and not l.startswith("#")]
     results = []
     for i, h in enumerate(hosts, 1):
@@ -109,10 +142,16 @@ def main():
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
     json.dump({"meta": meta, "results": results}, open(a.out, "w"), indent=1, ensure_ascii=False)
     ok = [r for r in results if r["status"] == "ok"]; pqc = [r for r in ok if r["supports_pqc"]]
+    parse_errs = [r for r in results if r["status"] == "parse-error"]
     print(f"\nSummary: {len(pqc)}/{len(ok)} responding hosts negotiate PQC "
           f"({100*len(pqc)/max(1,len(ok)):.0f}%); {len(results)-len(ok)} errors. -> {a.out}")
     if a.html:
         open(a.html, "w").write(render_html(results, meta)); print(f"HTML report -> {a.html}")
+    if parse_errs:
+        print(f"\nWARNING: {len(parse_errs)} PARSE-ERRORS — TLS connected but no group parsed."
+              f" This is a scanner regression (false-0% class), NOT host data. First: "
+              f"{parse_errs[0]['host']}: {parse_errs[0]['note']}", file=sys.stderr)
+        sys.exit(3)
 
 if __name__ == "__main__":
     main()
