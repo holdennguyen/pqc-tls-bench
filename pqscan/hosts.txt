@@ -93,6 +93,7 @@ chinhphu.vn
 moh.gov.vn
 most.gov.vn
 edu.vn
+ntt.edu.vn
 nttu.edu.vn
 hcmus.edu.vn
 hust.edu.vn
