@@ -1,7 +1,30 @@
 # Digests pinned 2026-08-16 (docker inspect --format='{{index .RepoDigests 0}}')
-# Requirement: every image's OpenSSL >= 3.5  (check: docker run --rm IMG openssl version)
-# Day-1 services have no profile (start by default). Everything not yet built sits in
-# the "full" profile: docker compose --profile full up -d --build   (Phase 3, Sun PM)
+# Every image's OpenSSL verified >= 3.5:
+#   nginx:mainline 1.31.3 -> 3.5.6 | alpine/openssl -> 3.5.7 | postgres:18.6 -> 3.5.6
+#   redis:8.10 (trixie, dynamic libssl) -> 3.5.x | node:25.9 bundled -> 3.5.5
+#   python:3.14-slim-trixie -> 3.5.6
+#
+# MODE DESIGN (the experiment variable is the CLIENT's key-exchange group list):
+#   - servers (PG, Redis, APIs, nginx edges) accept a superset of groups — identical
+#     config for both modes.
+#   - clients pick EXACTLY ONE group per mode (hybrid=X25519MLKEM768, classic=X25519):
+#     nginx proxy via proxy_ssl_conf_command, Python via OPENSSL_CONF system_default,
+#     Node via ecdhCurve. A successful handshake therefore PROVES the negotiated group.
+#   - each API runs twice (…-hybrid / …-classic); the ONLY env difference is MODE.
+
+x-api-common: &api-env
+  POOL: "10"
+  PGHOST: postgres
+  PGUSER: postgres
+  PGPASSWORD: bench
+  PGDATABASE: postgres
+  REDIS_HOST: redis
+  OTEL_TRACES_EXPORTER: otlp
+  OTEL_METRICS_EXPORTER: none
+  OTEL_LOGS_EXPORTER: none
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+  OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+
 services:
   nginx-hybrid:
     image: nginx:mainline@sha256:8541484afbc9c8a5a8a99b379568ebbc957f658583ec9448fc43104229c03cf8  # nginx 1.31.3, OpenSSL 3.5.6
@@ -14,28 +37,96 @@ services:
   openssl-client:
     image: alpine/openssl:latest@sha256:47f40fac08a77cbdfb02444e543808aa36b9e31e21a261f4d94ffaf0c5c73832  # OpenSSL 3.5.7; used by make verify + probe
     entrypoint: [ "sleep", "infinity" ]
-  api-python:
-    profiles: [ "full" ]
+    volumes: [ "./certs:/certs:ro" ]
+
+  api-python-hybrid: &api-python
     build: ./services/api-python
-    environment: [ "POOL=10" ]
-  api-node:
-    profiles: [ "full" ]
+    environment:
+      <<: *api-env
+      MODE: hybrid
+      OTEL_SERVICE_NAME: api-python-hybrid
+    volumes: [ "./certs:/certs:ro" ]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+  api-python-classic:
+    <<: *api-python
+    environment:
+      <<: *api-env
+      MODE: classic
+      OTEL_SERVICE_NAME: api-python-classic
+
+  api-node-hybrid: &api-node
     build: ./services/api-node
-    environment: [ "POOL=10" ]
+    environment:
+      <<: *api-env
+      MODE: hybrid
+      OTEL_SERVICE_NAME: api-node-hybrid
+      NODE_EXTRA_CA_CERTS: /certs/server.crt
+    volumes: [ "./certs:/certs:ro" ]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+  api-node-classic:
+    <<: *api-node
+    environment:
+      <<: *api-env
+      MODE: classic
+      OTEL_SERVICE_NAME: api-node-classic
+      NODE_EXTRA_CA_CERTS: /certs/server.crt
+
   postgres:
-    profiles: [ "full" ]
-    image: postgres:18      # trixie-based → OpenSSL 3.5; verify + pin
+    image: postgres:18@sha256:06cad38a5d9f5d24b4d83d86def30795d5e4b757fedbf5281172b576dedcd941  # 18.6 trixie, OpenSSL 3.5.6
     environment: [ "POSTGRES_PASSWORD=bench" ]
-    # TODO: ssl=on + certs via command/volume
+    volumes:
+      - "./certs:/certs-src:ro"
+      - "./db/init:/docker-entrypoint-initdb.d:ro"
+    # key must be owned by postgres with 0600 — bind mounts carry host uid, so copy first
+    entrypoint:
+      - bash
+      - -c
+      - >
+        install -o postgres -g postgres -m 600 /certs-src/server.key /var/lib/postgresql/server.key &&
+        install -o postgres -g postgres -m 644 /certs-src/server.crt /var/lib/postgresql/server.crt &&
+        exec docker-entrypoint.sh postgres
+        -c ssl=on
+        -c ssl_cert_file=/var/lib/postgresql/server.crt
+        -c ssl_key_file=/var/lib/postgresql/server.key
+        -c ssl_min_protocol_version=TLSv1.3
+        -c ssl_groups=X25519MLKEM768:X25519
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
   redis:
-    profiles: [ "full" ]
-    image: redis:8          # verify + pin; tls-port 6379, port 0
-  # TODO(claude-code): k6, prometheus, grafana, cadvisor, tshark sidecar, netem variant
+    image: redis:8@sha256:344e3945a0b431c8ff1eecd58c5573538126bd756f02fc7e218ddf1fc2546366  # 8.10 trixie, OpenSSL 3.5.x
+    volumes: [ "./certs:/certs-src:ro" ]
+    # TLS-only (port 0). No group config -> OpenSSL 3.5 defaults (superset, both modes OK).
+    entrypoint:
+      - bash
+      - -c
+      - >
+        mkdir -p /tls &&
+        install -o redis -g redis -m 600 /certs-src/server.key /tls/server.key &&
+        install -o redis -g redis -m 644 /certs-src/server.crt /tls/server.crt &&
+        exec docker-entrypoint.sh redis-server
+        --tls-port 6379 --port 0
+        --tls-cert-file /tls/server.crt
+        --tls-key-file /tls/server.key
+        --tls-ca-cert-file /tls/server.crt
+        --tls-auth-clients no
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--tls", "--cacert", "/tls/server.crt", "-p", "6379", "ping" ]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  # TODO(claude-code): k6, prometheus, grafana, cadvisor, tshark sidecar, netem variant (phase 4)
   otel-collector:
-    profiles: [ "full" ]
-    image: otel/opentelemetry-collector-contrib:latest  # pin digest
+    image: otel/opentelemetry-collector-contrib@sha256:c5918f78992ee73b0d6f0e599423ac5ec52dd5d9726733114d6eca53d5a32ed5
     volumes: [ "./otel/collector.yaml:/etc/otelcol-contrib/config.yaml:ro" ]
   jaeger:
-    profiles: [ "full" ]
-    image: jaegertracing/all-in-one:latest              # pin digest
+    image: jaegertracing/all-in-one@sha256:ab6f1a1f0fb49ea08bcd19f6b84f6081d0d44b364b6de148e1798eb5816bacac
     ports: [ "16686:16686" ]
