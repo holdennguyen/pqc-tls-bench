@@ -11,7 +11,10 @@ const RATE = parseInt(__ENV.RATE || '15', 10); // requests/second
 const DURATION = __ENV.DURATION || '30s';
 const RTT = __ENV.RTT || '0';                  // netem-added delay label (ms)
 const REP = __ENV.REP || '0';
-const WARMUP = __ENV.WARMUP === '1';
+// Writing into results/ (the OFFICIAL thesis dataset) is opt-in: only run_all.sh
+// sets OFFICIAL=1. Warmups, demos, and ad-hoc runs stream metrics to Grafana but
+// leave no file behind — a stray file would poison gate_bench's completeness check.
+const OFFICIAL = __ENV.OFFICIAL === '1';
 const BASE = `https://nginx-${MODE}`;
 const EXPECT_GROUP = MODE === 'hybrid' ? 'X25519MLKEM768' : 'X25519';
 
@@ -69,7 +72,7 @@ export default function () {
 }
 
 export function handleSummary(data) {
-  if (WARMUP) return {}; // warm-ups discarded
+  if (!OFFICIAL) return {}; // only run_all.sh writes the thesis dataset
   const name = `/results/k6-${MODE}-${PROFILE}-r${RATE}-rtt${RTT}-rep${REP}.json`;
   const out = {
     meta: { mode: MODE, profile: PROFILE, rate: RATE, rtt: parseInt(RTT, 10), rep: parseInt(REP, 10) },

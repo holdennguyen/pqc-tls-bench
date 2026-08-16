@@ -11,10 +11,12 @@ mkdir -p results
 
 k6run() { # mode profile rate rep rtt warmup
   mode=$1 profile=$2 rate=$3 rep=$4 rtt=$5 warmup=$6
-  if [ "$warmup" = 1 ]; then dur=10s out=""; else dur=30s out="-o experimental-prometheus-rw"; fi
+  # OFFICIAL=1 (write summary into results/) only for measured reps — warmups,
+  # demos and ad-hoc runs are ephemeral by design (see scenario.js).
+  if [ "$warmup" = 1 ]; then dur=10s out="" official=0; else dur=30s out="-o experimental-prometheus-rw" official=1; fi
   docker compose --profile bench run --rm -T k6 run /scripts/scenario.js \
     -e MODE="$mode" -e PROFILE="$profile" -e RATE="$rate" -e REP="$rep" \
-    -e RTT="$rtt" -e WARMUP="$warmup" -e DURATION="$dur" \
+    -e RTT="$rtt" -e OFFICIAL="$official" -e DURATION="$dur" \
     $out --tag testid="$mode-$profile-r$rate-rtt$rtt" \
     --tag mode="$mode" --tag profile="$profile" --tag rate="$rate" --tag rtt="$rtt" \
     --quiet --no-usage-report >/dev/null 2>&1 \
