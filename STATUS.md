@@ -8,11 +8,12 @@
   topology and the experiment variable untouched; measurement gates stayed green throughout.
 - App: fake demo login -> dashboard (live TLS stats, two-gates panel) -> records CRUD +
   search + pagination; MetaChips on every response (api / tls group / cache); bottom
-  TELEMETRY STRIP live-prints the last frontend sensor line. Redesigned to the
-  "peer review" direction (paper-white, Literata serif justified, booktabs tables,
-  chips as outlined annotations, strip as a running † footnote); Literata + IBM
-  Plex Mono bundled locally (offline-safe demo). Condition colors kept semantic:
-  ink-blue = X25519, carmine = X25519MLKEM768.
+  TELEMETRY STRIP live-prints the last frontend sensor line. Design system is
+  GRAFANA-MATCHED (dark canvas #111217, panel idiom, Inter + Roboto Mono bundled
+  locally — offline-safe demo) so app + portal + Grafana + Jaeger read as one
+  product family; condition colors are Grafana's own series palette, so chips in
+  the app MATCH the dashboard line colors: blue #5794F2 = X25519, red #F2495C =
+  X25519MLKEM768 (python #FADE2A, node #73BF69).
 - Both APIs extended identically: GET /records?search=&limit=&offset= (+meta.total),
   PUT and DELETE /records/{id} with sensor-wrapped cache invalidation; gate_api now
   proves pagination, search, PUT cross-API round-trip, DELETE-gone — and cleans up after itself.

@@ -5,67 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PQC-TLS Testbed — Hồ sơ bệnh án</title>
 <style>
-  /* "peer review" direction, in step with the SPA: paper, ink, condition colors.
-     (System serif stack — the SPA's bundled Literata lives behind hashed asset names.) */
+  /* Grafana-matched tokens, in step with the SPA — the app, this portal, and the
+     Grafana/Jaeger demo screens read as one product family. Condition colors are
+     Grafana's series palette: blue #5794F2 = X25519, red #F2495C = X25519MLKEM768.
+     (System font stack — the SPA's bundled Inter lives behind hashed asset names.) */
   :root {
-    --paper: #f7f5f0; --paper2: #efece4; --rule: #c9c2b4; --rule-heavy: #1c1a17;
-    --ink: #1c1a17; --faded: #6e6759;
-    --classic: #1f5fa8; --hybrid: #a4243b; --ok: #2e6b4f;
+    --bg: #111217; --panel: #181b1f; --panel2: #22252b;
+    --line: rgba(204,204,220,.12); --line-strong: rgba(204,204,220,.2);
+    --text: #ccccdc; --muted: rgba(204,204,220,.65); --link: #6e9fff;
+    --classic: #5794f2; --hybrid: #f2495c; --ok: #73bf69;
   }
   * { box-sizing: border-box; margin: 0; }
   body {
-    background: var(--paper); color: var(--ink); min-height: 100vh;
-    font: 16px/1.62 Charter, "Iowan Old Style", Georgia, "Times New Roman", serif;
+    background: var(--bg); color: var(--text); min-height: 100vh;
+    font: 14px/1.57 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
   }
   header {
-    display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline;
-    justify-content: space-between; max-width: 900px; margin: 0 auto;
-    padding: 34px 28px 16px; border-bottom: 3px double var(--rule-heavy);
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--line);
   }
-  header h1 { font-size: 23px; font-weight: 700; letter-spacing: -0.01em; }
-  header h1 span { color: var(--faded); font-weight: 400; font-style: italic; font-size: 15px; }
+  header h1 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+  header h1 span { color: var(--muted); font-weight: 400; font-size: 13px; }
   .badge {
     display: inline-flex; align-items: center; gap: 9px; padding: 6px 12px;
-    border: 1px solid var(--rule); background: var(--paper); font-size: 13px; color: var(--faded);
+    border-radius: 2px; border: 1px solid var(--line-strong); background: var(--panel);
+    font-size: 13px; color: var(--muted);
   }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--faded); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
   .badge.classic { border-color: var(--classic); color: var(--classic); }
   .badge.hybrid  { border-color: var(--hybrid);  color: var(--hybrid); }
   .badge.classic .dot { background: var(--classic); }
   .badge.hybrid  .dot { background: var(--hybrid); }
-  .badge b { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; }
-  main { max-width: 900px; margin: 0 auto; padding: 26px 28px 60px; }
-  .intro {
-    color: var(--ink); max-width: 720px; margin-bottom: 30px;
-    text-align: justify; hyphens: auto; font-size: 15.5px;
-  }
-  .intro strong { font-weight: 700; }
-  .grid { display: grid; gap: 0 28px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); border-top: 2px solid var(--rule-heavy); }
+  .badge b { font-family: "Roboto Mono", ui-monospace, Menlo, monospace; font-size: 12px; }
+  main { max-width: 1040px; margin: 0 auto; padding: 28px 24px 56px; }
+  .intro { color: var(--muted); max-width: 760px; margin-bottom: 26px; font-size: 14.5px; }
+  .intro strong { color: var(--text); }
+  .grid { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
   a.card {
-    display: block; padding: 18px 2px 20px; text-decoration: none;
-    color: var(--ink); border-bottom: 1px solid var(--rule);
+    display: block; padding: 16px 18px; border-radius: 2px; text-decoration: none;
+    color: var(--text); background: var(--panel); border: 1px solid var(--line);
   }
-  a.card:hover h2 { text-decoration: underline; text-underline-offset: 3px; }
-  .card .ic { font-size: 20px; }
-  .card h2 { font-size: 16.5px; font-weight: 700; margin: 8px 0 6px; }
-  .card p { font-size: 13.5px; color: var(--faded); text-align: justify; hyphens: auto; }
-  .modes { margin-top: 34px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-  .mode { padding: 14px 18px; border: 1px solid var(--rule); font-size: 14px; }
-  .mode h3 { font-size: 14px; margin-bottom: 6px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+  a.card:hover { background: var(--panel2); border-color: var(--line-strong); }
+  .card .ic { font-size: 22px; }
+  .card h2 { font-size: 14px; font-weight: 500; margin: 8px 0 5px; }
+  .card p { font-size: 13px; color: var(--muted); }
+  .modes { margin-top: 26px; display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .mode {
+    padding: 14px 16px; border-radius: 2px; background: var(--panel);
+    border: 1px solid var(--line); font-size: 13.5px;
+  }
+  .mode h3 { font-size: 11px; margin-bottom: 6px; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; }
   .mode.classic { border-left: 3px solid var(--classic); }
   .mode.hybrid  { border-left: 3px solid var(--hybrid); }
   .mode.classic h3 { color: var(--classic); }
   .mode.hybrid  h3 { color: var(--hybrid); }
   .mode code, .intro code {
-    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px;
-    background: var(--paper2); padding: 2px 6px;
+    font-family: "Roboto Mono", ui-monospace, Menlo, monospace; font-size: 12px;
+    background: var(--panel2); padding: 2px 6px; border-radius: 2px;
   }
-  .mode p { color: var(--faded); margin-top: 6px; text-align: justify; hyphens: auto; }
-  footer {
-    color: var(--faded); font-size: 13px; margin-top: 44px; padding-top: 10px;
-    border-top: 1px solid var(--rule); font-style: italic; text-align: justify;
-  }
-  footer::before { content: '† '; color: var(--faded); font-style: normal; }
+  .mode p { color: var(--muted); margin-top: 6px; }
+  footer { color: var(--muted); font-size: 12.5px; margin-top: 40px; padding-top: 12px; border-top: 1px solid var(--line); }
 </style>
 </head>
 <body>

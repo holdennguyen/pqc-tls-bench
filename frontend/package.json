@@ -8,8 +8,8 @@
     "build": "tsc --noEmit && vite build"
   },
   "dependencies": {
-    "@fontsource/ibm-plex-mono": "^5.2.5",
-    "@fontsource/literata": "^5.2.5",
+    "@fontsource/inter": "^5.2.5",
+    "@fontsource/roboto-mono": "^5.2.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.0"
