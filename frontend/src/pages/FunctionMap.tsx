@@ -11,8 +11,16 @@ const NODE_W = 200;
 const NODE_H = 42;
 const GAP_Y = 14;
 const COL_X = [16, 286, 556, 826];
-const TOP = 46;
+const TOP = 58;
 const POLL_MS = 3000;
+
+// the thesis hops live in the column GAPS: browser→(nginx edge)→API crosses
+// H1 + H2a/b; handler→db/cache fns are in-process; fn→store crosses H3/H4
+const HOP_GAPS = [
+  { gap: 0, label: 'H1 + H2 · TLS 1.3', tls: true },
+  { gap: 1, label: 'gọi nội bộ tiến trình', tls: false },
+  { gap: 2, label: 'H3 · H4 · TLS 1.3', tls: true },
+];
 
 type LNode = GNode & { id: string; col: number; y: number };
 type LEdge = { id: string; from: string; to: string; count: number };
@@ -106,10 +114,15 @@ export default function FunctionMap() {
         <h2 style={{ margin: 0 }} className="grow">Sơ đồ chức năng — quan sát trực tiếp từ sensor</h2>
         <span className="chip">cửa sổ: từ khi khởi động · làm mới 3s</span>
       </div>
-      <p style={{ color: 'var(--muted)', fontSize: 12.5, margin: '0 0 12px' }}>
+      <p style={{ color: 'var(--muted)', fontSize: 12.5, margin: '0 0 6px' }}>
         Mỗi nút là một hàm có sensor; mỗi cạnh là quan hệ gọi cha→con THẬT đã quan sát
         (không khai báo tay). Đây là góc nhìn "service mesh" — nhưng vẽ từ sensor của chính
         ứng dụng, không cần mesh, nên biến số TLS của thí nghiệm không bị che.
+      </p>
+      <p style={{ color: 'var(--muted)', fontSize: 12.5, margin: '0 0 12px' }} className="mono">
+        N× = số lần gọi từ khi khởi động · ms = trung bình mỗi lần gọi (gồm cả hàm con) ·
+        ⚠ = số lần lỗi. Các chặng H1–H4 của luận văn nằm ở KHOẢNG TRỐNG giữa các cột
+        (Trình duyệt→API đi qua nginx biên: H1 rồi H2a/H2b).
       </p>
       <div style={{ overflowX: 'auto' }}>
         <svg data-testid="fn-graph" width={COL_X[3] + NODE_W + 16} height={height}
@@ -118,6 +131,16 @@ export default function FunctionMap() {
             <text key={t} x={COL_X[i]} y={20} fill="var(--muted)" fontSize="11"
               style={{ textTransform: 'uppercase', letterSpacing: '0.08em' }}>{t}</text>
           ))}
+          {HOP_GAPS.map((h) => {
+            const cx = (COL_X[h.gap] + NODE_W + COL_X[h.gap + 1]) / 2;
+            return (
+              <g key={h.gap} className="hop-label">
+                <text x={cx} y={40} textAnchor="middle" fontSize="10"
+                  fontFamily="var(--font-mono)"
+                  fill={h.tls ? 'var(--mode)' : 'var(--muted)'}>▸ {h.label}</text>
+              </g>
+            );
+          })}
           {edges.map((e) => (
             <path key={e.id} d={path(e)} fill="none" className="edge"
               stroke={active.current.has(e.id) ? 'var(--mode)' : 'var(--line-strong)'}

@@ -112,6 +112,8 @@ for (const edge of EDGES) {
     const nEdges = await page.locator('[data-testid=fn-graph] path.edge').count();
     if (nNodes < 10) note(`${tag}: fn-graph too small (${nNodes} nodes)`);
     if (nEdges < 1) note(`${tag}: fn-graph has no edges`);
+    const nHops = await page.locator('[data-testid=fn-graph] g.hop-label').count();
+    if (nHops !== 3) note(`${tag}: hop labels missing (${nHops}/3) — thesis H1–H4 mapping`);
 
     // logout closes the auth loop (sensor scope auth: login + logout)
     await page.click('header button.btn');
