@@ -32,8 +32,11 @@ bench:
 # pinned node image the api-node service uses; stamp the source hash for
 # gate_ui_build's stale-dist check. No host node required.
 NODE_IMG=node:25-slim@sha256:81db02c4b671288a03915da9534dbd54f96d0e7c24d80ccc54f5b36b2e684370
+# PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: the playwright LIB installs here (for the
+# e2e spec); browsers come from the pinned mcr.microsoft.com/playwright image
+# in gate_frontend — lib version 1.62.1 must match that image tag.
 ui-build:
-	docker run --rm -v "$(PWD):/repo" -w /repo/frontend $(NODE_IMG) \
+	docker run --rm -e PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 -v "$(PWD):/repo" -w /repo/frontend $(NODE_IMG) \
 	  sh -c "npm ci --no-audit --no-fund && npm run build"
 	sh frontend/srchash.sh > static/app/.srchash
 	@echo "UI BUILD DONE -> static/app/"
