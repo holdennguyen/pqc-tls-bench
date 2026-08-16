@@ -1,58 +1,58 @@
 {
  "meta": {
-  "when": "2026-08-15 14:17",
-  "openssl": "OpenSSL 3.5.4 30 Sep 2025 (Library: OpenSSL 3.5.4 30 Sep 2025)",
+  "when": "2026-08-16 07:57",
+  "openssl": "OpenSSL 3.5.6 7 Apr 2026 (Library: OpenSSL 3.5.6 7 Apr 2026)",
   "method": "one TLS1.3 handshake per host offering X25519MLKEM768:X25519, no HTTP, 5s timeout, no retries"
  },
  "results": [
   {
    "host": "google.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "youtube.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "facebook.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "instagram.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "x.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "wikipedia.org",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "reddit.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "amazon.com",
@@ -64,16 +64,16 @@
   {
    "host": "tiktok.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "bing.com",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "20A01EAD10FE0000:error:0A000126:SSL routines::unexpected eof while reading:../ssl/record/rec_layer_s3.c:698:"
   },
   {
    "host": "linkedin.com",
@@ -92,23 +92,23 @@
   {
    "host": "openai.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "anthropic.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "cloudflare.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "github.com",
@@ -120,44 +120,44 @@
   {
    "host": "gitlab.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "stackoverflow.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "apple.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "microsoft.com",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "20102EB642FC0000:error:0A000410:SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure:../ssl/record/rec_layer_s3.c:918:SSL alert number 40"
   },
   {
    "host": "office.com",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "20E02AB279EC0000:error:0A000126:SSL routines::unexpected eof while reading:../ssl/record/rec_layer_s3.c:698:"
   },
   {
    "host": "zoom.us",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "dropbox.com",
@@ -169,9 +169,9 @@
   {
    "host": "salesforce.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "oracle.com",
@@ -183,9 +183,9 @@
   {
    "host": "ibm.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "intel.com",
@@ -197,16 +197,16 @@
   {
    "host": "amd.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "nvidia.com",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "20B0A9C7DCF10000:error:0A000126:SSL routines::unexpected eof while reading:../ssl/record/rec_layer_s3.c:698:"
   },
   {
    "host": "mozilla.org",
@@ -218,9 +218,9 @@
   {
    "host": "duckduckgo.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "yahoo.com",
@@ -232,16 +232,16 @@
   {
    "host": "ebay.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "paypal.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "stripe.com",
@@ -253,9 +253,9 @@
   {
    "host": "shopify.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "etsy.com",
@@ -267,14 +267,14 @@
   {
    "host": "booking.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "airbnb.com",
    "status": "ok",
-   "negotiated_group": "X25519",
+   "negotiated_group": "DH",
    "supports_pqc": false,
    "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
   },
@@ -288,9 +288,9 @@
   {
    "host": "grab.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "spotify.com",
@@ -302,16 +302,16 @@
   {
    "host": "twitch.tv",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "discord.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "slack.com",
@@ -323,65 +323,65 @@
   {
    "host": "notion.so",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "figma.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "canva.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "medium.com",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "timeout"
   },
   {
    "host": "substack.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "nytimes.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "theguardian.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "bbc.com",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "timeout"
   },
   {
    "host": "cnn.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "reuters.com",
@@ -421,9 +421,9 @@
   {
    "host": "dantri.com.vn",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "zingnews.vn",
@@ -476,10 +476,10 @@
   },
   {
    "host": "fpt.vn",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "DONE"
   },
   {
    "host": "viettel.com.vn",
@@ -490,17 +490,17 @@
   },
   {
    "host": "vnpt.com.vn",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "2020329866EC0000:error:0A000410:SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure:../ssl/record/rec_layer_s3.c:918:SSL alert number 40"
   },
   {
    "host": "mobifone.vn",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "tiki.vn",
@@ -518,31 +518,31 @@
   },
   {
    "host": "lazada.vn",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "2070559471E30000:error:0A000438:SSL routines:ssl3_read_bytes:tlsv1 alert internal error:../ssl/record/rec_layer_s3.c:918:SSL alert number 80"
   },
   {
    "host": "sendo.vn",
    "status": "ok",
-   "negotiated_group": "X25519",
+   "negotiated_group": "DH",
    "supports_pqc": false,
    "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
   },
   {
    "host": "thegioididong.com",
    "status": "ok",
-   "negotiated_group": "X25519",
+   "negotiated_group": "DH",
    "supports_pqc": false,
    "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
   },
   {
    "host": "fptshop.com.vn",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "cellphones.com.vn",
@@ -554,9 +554,9 @@
   {
    "host": "vietcombank.com.vn",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "techcombank.com.vn",
@@ -596,9 +596,9 @@
   {
    "host": "vpbank.com.vn",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "acb.com.vn",
@@ -651,17 +651,17 @@
   },
   {
    "host": "moh.gov.vn",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "2050230924FE0000:error:0A000410:SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure:../ssl/record/rec_layer_s3.c:918:SSL alert number 40"
   },
   {
    "host": "most.gov.vn",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "timeout"
   },
   {
    "host": "edu.vn",
@@ -672,10 +672,10 @@
   },
   {
    "host": "nttu.edu.vn",
-   "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "status": "error",
+   "negotiated_group": null,
+   "supports_pqc": null,
+   "note": "timeout"
   },
   {
    "host": "hcmus.edu.vn",
@@ -701,9 +701,9 @@
   {
    "host": "opswat.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "kaspersky.com",
@@ -715,9 +715,9 @@
   {
    "host": "crowdstrike.com",
    "status": "ok",
-   "negotiated_group": "X25519",
-   "supports_pqc": false,
-   "note": "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+   "negotiated_group": "X25519MLKEM768",
+   "supports_pqc": true,
+   "note": "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
   },
   {
    "host": "paloaltonetworks.com",

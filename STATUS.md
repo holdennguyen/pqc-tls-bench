@@ -1,5 +1,24 @@
 # STATUS — what ran, what's next (16 Aug, night)
 
+## Phase 4: COMPLETE — benchmarks run, UI live, ALL GATES GREEN
+Headline numbers (results/summary.json, 3 reps, 95% CI):
+- Probe (100 handshakes/rep/hop): hybrid adds +0.077..+0.113 ms p50 per hop
+  (+28..+33% relative, sub-0.12 ms absolute on loopback-class links).
+- Bytes on the wire (probe + tshark agree): ClientHello side +1176 B (ML-KEM-768
+  pubkey = 1184 B), server side +1089 B (ciphertext = 1088 B). Hybrid H1 handshake
+  total ~3.6 KB vs ~1.4 KB classic.
+- k6 churn @15rps: handshake p95 hybrid 2.37±0.15 ms vs classic 1.82±0.07 ms.
+- k6 churn + netem 20 ms RTT: 23.30±0.83 vs 23.28±0.46 ms — the crypto delta
+  DISAPPEARS into network latency at realistic RTT (key thesis finding).
+- k6 pooled: CIs overlap (e.g. 0.74±0.33 vs 0.89±0.27) — handshake cost amortizes
+  to ~zero on pooled connections. CENTRAL HYPOTHESIS CONFIRMED.
+- UI: portal + records app (VN, dark) at :8443/:8444, live group badge; Grafana
+  dashboard "pqc-vs-classic" provisioned (k6 remote-write + cadvisor); pqscan HTML
+  at /scan. DEMO.md has the 6-minute defense walkthrough + backup-video script.
+Remaining for Holden (⌨️, per RUNBOOK): OPSWAT slides, thesis Ch.4-5 numbers from
+results/, record backup video, rehearse ×2.
+
+
 ## Phase 3: GREEN — full stack, gates tls/db/cache/api/trace PASS (bench/ui pending phase 4)
 - 11 containers: 2 nginx edges, 4 API instances (python/node × hybrid/classic),
   postgres 18.6 (TLS1.3-only, hostssl-only pg_hba), redis 8.10 (TLS-only, port 0),

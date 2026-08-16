@@ -1,0 +1,215 @@
+{
+ "meta": {
+  "mode": "hybrid",
+  "profile": "churn",
+  "rate": 45,
+  "rtt": 0,
+  "rep": 2
+ },
+ "metrics": {
+  "http_req_blocked": {
+   "type": "trend",
+   "contains": "time",
+   "values": {
+    "max": 4.607978,
+    "count": 1351,
+    "avg": 1.5122068512213191,
+    "min": 0.459154,
+    "med": 1.5357,
+    "p(90)": 2.029873,
+    "p(95)": 2.1426494999999997,
+    "p(99)": 2.364189
+   }
+  },
+  "iterations": {
+   "type": "counter",
+   "contains": "default",
+   "values": {
+    "count": 1350,
+    "rate": 45.35128170385454
+   }
+  },
+  "http_reqs": {
+   "type": "counter",
+   "contains": "default",
+   "values": {
+    "count": 1351,
+    "rate": 45.384875245857394
+   }
+  },
+  "http_req_connecting": {
+   "type": "trend",
+   "contains": "time",
+   "values": {
+    "max": 0.90169,
+    "count": 1351,
+    "avg": 0.16197425758697273,
+    "min": 0.038704,
+    "med": 0.16291,
+    "p(90)": 0.223998,
+    "p(95)": 0.24966999999999998,
+    "p(99)": 0.2925385
+   }
+  },
+  "http_req_waiting": {
+   "type": "trend",
+   "contains": "time",
+   "values": {
+    "p(90)": 5.188851,
+    "p(95)": 5.791469999999998,
+    "p(99)": 7.126427,
+    "max": 10.945819,
+    "count": 1351,
+    "avg": 3.533800822353816,
+    "min": 0.877444,
+    "med": 3.382744
+   }
+  },
+  "checks": {
+   "thresholds": {
+    "rate>0.99": {
+     "ok": true
+    }
+   },
+   "type": "rate",
+   "contains": "default",
+   "values": {
+    "rate": 1,
+    "passes": 1350,
+    "fails": 0
+   }
+  },
+  "http_req_sending": {
+   "type": "trend",
+   "contains": "time",
+   "values": {
+    "p(95)": 0.1995025,
+    "p(99)": 0.2414985,
+    "max": 0.532093,
+    "count": 1351,
+    "avg": 0.12255235529237608,
+    "min": 0.025911,
+    "med": 0.124343,
+    "p(90)": 0.18096
+   }
+  },
+  "data_received": {
+   "contains": "data",
+   "values": {
+    "count": 3569256,
+    "rate": 119903.951354943
+   },
+   "type": "counter"
+  },
+  "vus": {
+   "type": "gauge",
+   "contains": "default",
+   "values": {
+    "value": 0,
+    "min": 0,
+    "max": 0
+   }
+  },
+  "http_req_failed": {
+   "thresholds": {
+    "rate<0.05": {
+     "ok": true
+    }
+   },
+   "type": "rate",
+   "contains": "default",
+   "values": {
+    "rate": 0,
+    "passes": 0,
+    "fails": 1351
+   }
+  },
+  "http_req_duration": {
+   "type": "trend",
+   "contains": "time",
+   "values": {
+    "p(95)": 6.078662499999999,
+    "p(99)": 7.421466999999999,
+    "max": 11.291903,
+    "count": 1351,
+    "avg": 3.7567038919319105,
+    "min": 1.005412,
+    "med": 3.618136,
+    "p(90)": 5.445955
+   }
+  },
+  "data_sent": {
+   "type": "counter",
+   "contains": "data",
+   "values": {
+    "count": 2474715,
+    "rate": 83134.44229759584
+   }
+  },
+  "http_req_duration{expected_response:true}": {
+   "type": "trend",
+   "contains": "time",
+   "values": {
+    "count": 1351,
+    "avg": 3.7567038919319105,
+    "min": 1.005412,
+    "med": 3.618136,
+    "p(90)": 5.445955,
+    "p(95)": 6.078662499999999,
+    "p(99)": 7.421466999999999,
+    "max": 11.291903
+   }
+  },
+  "iteration_duration": {
+   "values": {
+    "p(95)": 8.27573625,
+    "p(99)": 9.73247741,
+    "max": 13.286897,
+    "count": 1350,
+    "avg": 5.438994202962958,
+    "min": 1.660117,
+    "med": 5.444005000000001,
+    "p(90)": 7.5557073
+   },
+   "type": "trend",
+   "contains": "time"
+  },
+  "http_req_tls_handshaking": {
+   "type": "trend",
+   "contains": "time",
+   "values": {
+    "count": 1351,
+    "avg": 1.2355193449296833,
+    "min": 0.39627,
+    "med": 1.25635,
+    "p(90)": 1.702951,
+    "p(95)": 1.7887505,
+    "p(99)": 1.9273244999999999,
+    "max": 4.293004
+   }
+  },
+  "http_req_receiving": {
+   "contains": "time",
+   "values": {
+    "max": 0.304634,
+    "count": 1351,
+    "avg": 0.10035071428571432,
+    "min": 0.031193,
+    "med": 0.097611,
+    "p(90)": 0.137206,
+    "p(95)": 0.1578975,
+    "p(99)": 0.1999179999999999
+   },
+   "type": "trend"
+  },
+  "vus_max": {
+   "contains": "default",
+   "values": {
+    "value": 90,
+    "min": 90,
+    "max": 90
+   },
+   "type": "gauge"
+  }
+ }
+}
