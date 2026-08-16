@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PQC-TLS Testbed — Hồ sơ bệnh án</title>
+<style>
+  :root {
+    --bg: #0e1320; --panel: #161e2f; --panel2: #1c2740; --line: #263352;
+    --text: #e8eef8; --muted: #93a3bd;
+    --classic: #4da3ff; --hybrid: #ff5d6c; --ok: #3ddc97;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--bg); color: var(--text); min-height: 100vh;
+    font: 16px/1.55 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  header {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    justify-content: space-between; padding: 20px 28px; border-bottom: 1px solid var(--line);
+  }
+  header h1 { font-size: 20px; font-weight: 650; letter-spacing: .2px; }
+  header h1 span { color: var(--muted); font-weight: 400; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px;
+    border-radius: 999px; border: 1px solid var(--line); background: var(--panel);
+    font-size: 14px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+  .badge.classic .dot { background: var(--classic); box-shadow: 0 0 8px var(--classic); }
+  .badge.hybrid  .dot { background: var(--hybrid);  box-shadow: 0 0 8px var(--hybrid); }
+  .badge b { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; }
+  main { max-width: 1080px; margin: 0 auto; padding: 36px 28px 60px; }
+  .intro { color: var(--muted); max-width: 720px; margin-bottom: 30px; }
+  .intro strong { color: var(--text); }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  a.card {
+    display: block; padding: 22px; border-radius: 14px; text-decoration: none;
+    color: var(--text); background: var(--panel); border: 1px solid var(--line);
+    transition: transform .12s ease, border-color .12s ease;
+  }
+  a.card:hover { transform: translateY(-2px); border-color: #3a4d7a; background: var(--panel2); }
+  .card .ic { font-size: 26px; }
+  .card h2 { font-size: 17px; margin: 10px 0 6px; }
+  .card p { font-size: 14px; color: var(--muted); }
+  .modes { margin-top: 34px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .mode {
+    padding: 18px 22px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .mode h3 { font-size: 15px; margin-bottom: 6px; }
+  .mode.classic h3 { color: var(--classic); }
+  .mode.hybrid  h3 { color: var(--hybrid); }
+  .mode code, .intro code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px;
+    background: var(--panel2); padding: 2px 6px; border-radius: 6px;
+  }
+  .mode p { color: var(--muted); margin-top: 4px; }
+  footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Phòng khám An Khang <span>· testbed TLS hậu lượng tử</span></h1>
+  <span class="badge" id="badge"><span class="dot"></span>
+    <span>Kết nối của bạn:</span> <b id="group">đang kiểm tra…</b>
+  </span>
+</header>
+<main>
+  <p class="intro">
+    Hệ thống <strong>hồ sơ bệnh án</strong> mô phỏng — loại dữ liệu cần giữ bí mật hàng chục năm,
+    đúng mục tiêu của tấn công <strong>“thu thập trước, giải mã sau”</strong> (harvest-now-decrypt-later).
+    Toàn bộ các chặng kết nối (trình duyệt → cổng, cổng → API, API → CSDL/cache) đều chạy TLS 1.3
+    ở <strong>hai chế độ song song</strong>; khác biệt duy nhất là nhóm trao đổi khóa.
+  </p>
+  <div class="grid">
+    <a class="card" href="/app/">
+      <div class="ic">🩺</div>
+      <h2>Ứng dụng bệnh án</h2>
+      <p>Xem / tạo hồ sơ bệnh nhân. Mỗi phản hồi hiển thị API phục vụ (Python/Node) và nhóm khóa TLS đã thương lượng.</p>
+    </a>
+    <a class="card" href="http://localhost:3000/d/pqc-vs-classic" target="_blank" rel="noopener">
+      <div class="ic">📊</div>
+      <h2>Grafana — PQC vs Classic</h2>
+      <p>Độ trễ bắt tay p50/p95/p99, thông lượng, CPU — hai chế độ cạnh nhau, cập nhật trực tiếp khi chạy tải.</p>
+    </a>
+    <a class="card" href="http://localhost:16686" target="_blank" rel="noopener">
+      <div class="ic">🔍</div>
+      <h2>Jaeger — truy vết</h2>
+      <p>Một request người dùng = một trace xuyên suốt: cổng → API → PostgreSQL / Redis.</p>
+    </a>
+    <a class="card" href="/scan" target="_blank" rel="noopener">
+      <div class="ic">🌐</div>
+      <h2>Khảo sát PQC thực tế</h2>
+      <p>~100 website thật (VN &amp; toàn cầu): bao nhiêu đã sẵn sàng trao đổi khóa hậu lượng tử?</p>
+    </a>
+  </div>
+  <div class="modes">
+    <div class="mode classic">
+      <h3>● Cổng CỔ ĐIỂN — :8444</h3>
+      <code>X25519</code>
+      <p>Trao đổi khóa đường cong elliptic thuần túy. Nhanh, gọn — nhưng lưu lượng ghi lại hôm nay có thể bị giải mã bởi máy tính lượng tử tương lai.</p>
+    </div>
+    <div class="mode hybrid">
+      <h3>● Cổng LAI GHÉP — :8443</h3>
+      <code>X25519MLKEM768</code>
+      <p>X25519 + ML-KEM-768 (chuẩn NIST FIPS 203). An toàn trước cả hai loại đối thủ; câu hỏi của đề tài: <em>tốn thêm bao nhiêu?</em></p>
+    </div>
+  </div>
+  <footer>
+    Đồ án tốt nghiệp — đo chi phí trao đổi khóa hậu lượng tử lai ghép trong TLS 1.3 theo từng chặng
+    của kiến trúc microservices. Dữ liệu bệnh nhân hoàn toàn tổng hợp (không có dữ liệu thật).
+  </footer>
+</main>
+<script>
+  fetch('/api/tls-info').then(r => r.json()).then(d => {
+    const g = d.edge_group || 'không rõ';
+    document.getElementById('group').textContent = g;
+    document.getElementById('badge').classList.add(g.includes('MLKEM') ? 'hybrid' : 'classic');
+  }).catch(() => { document.getElementById('group').textContent = 'lỗi'; });
+</script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bệnh án — Phòng khám An Khang</title>
+<style>
+  :root {
+    --bg: #0e1320; --panel: #161e2f; --panel2: #1c2740; --line: #263352;
+    --text: #e8eef8; --muted: #93a3bd;
+    --classic: #4da3ff; --hybrid: #ff5d6c; --ok: #3ddc97; --py: #ffd166; --node: #8ac926;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--text); min-height: 100vh;
+    font: 15px/1.5 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--line); }
+  header h1 { font-size: 17px; font-weight: 650; }
+  header a { color: var(--muted); text-decoration: none; font-size: 14px; }
+  header a:hover { color: var(--text); }
+  .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px;
+    border-radius: 999px; border: 1px solid var(--line); background: var(--panel); font-size: 13px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); }
+  .badge.classic .dot { background: var(--classic); box-shadow: 0 0 8px var(--classic); }
+  .badge.hybrid  .dot { background: var(--hybrid);  box-shadow: 0 0 8px var(--hybrid); }
+  .badge b { font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+  main { max-width: 1080px; margin: 0 auto; padding: 24px; display: grid; gap: 20px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .bar .spacer { flex: 1; }
+  select, input, textarea, button {
+    background: var(--panel2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 12px; font: inherit;
+  }
+  button { cursor: pointer; }
+  button.primary { background: #2653a6; border-color: #356ec2; }
+  button.primary:hover { background: #2e63c4; }
+  .hint { color: var(--muted); font-size: 13px; }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  section h2 { font-size: 15px; margin-bottom: 14px; }
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { color: var(--muted); font-weight: 500; font-size: 12.5px; text-transform: uppercase; letter-spacing: .4px; }
+  tr:hover td { background: var(--panel2); cursor: pointer; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12.5px; margin-top: 12px; }
+  .chip { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted);
+    font-family: ui-monospace, Menlo, monospace; }
+  .chip.api-python { color: var(--py); border-color: var(--py); }
+  .chip.api-node { color: var(--node); border-color: var(--node); }
+  .chip.g-classic { color: var(--classic); border-color: var(--classic); }
+  .chip.g-hybrid { color: var(--hybrid); border-color: var(--hybrid); }
+  .chip.cache-hit { color: var(--ok); border-color: var(--ok); }
+  form { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  form .full { grid-column: 1 / -1; }
+  label { display: grid; gap: 5px; font-size: 13px; color: var(--muted); }
+  #detail { display: none; }
+  #detail dl { display: grid; grid-template-columns: 140px 1fr; gap: 6px 14px; font-size: 14px; }
+  #detail dt { color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>🩺 Bệnh án — Phòng khám An Khang</h1>
+  <div style="display:flex;gap:14px;align-items:center">
+    <span class="badge" id="badge"><span class="dot"></span><b id="group">…</b></span>
+    <a href="/">← Cổng chính</a>
+  </div>
+</header>
+<main>
+  <div class="bar">
+    <label style="display:flex;gap:8px;align-items:center">API phục vụ:
+      <select id="apiSel">
+        <option value="py">Python (FastAPI)</option>
+        <option value="node">Node.js (https)</option>
+      </select>
+    </label>
+    <button id="reload">Tải lại danh sách</button>
+    <span class="spacer"></span>
+    <span class="hint">Mỗi phản hồi cho biết API nào phục vụ và nhóm khóa TLS của kết nối này.</span>
+  </div>
+
+  <section id="detail">
+    <h2>Hồ sơ #<span id="dId"></span></h2>
+    <dl>
+      <dt>Họ tên</dt><dd id="dName"></dd>
+      <dt>Ngày sinh</dt><dd id="dDob"></dd>
+      <dt>Chẩn đoán</dt><dd id="dDiag"></dd>
+      <dt>Ghi chú</dt><dd id="dNotes"></dd>
+      <dt>Tạo lúc</dt><dd id="dCreated"></dd>
+    </dl>
+    <div class="meta" id="dMeta"></div>
+  </section>
+
+  <section>
+    <h2>Danh sách hồ sơ <span class="hint" id="count"></span></h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>#</th><th>Họ tên</th><th>Ngày sinh</th><th>Chẩn đoán</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="meta" id="listMeta"></div>
+  </section>
+
+  <section>
+    <h2>Tạo hồ sơ mới</h2>
+    <form id="form">
+      <label>Họ tên bệnh nhân <input name="patient_name" required placeholder="Nguyễn Văn A"></label>
+      <label>Ngày sinh <input name="dob" type="date" required value="1990-01-01"></label>
+      <label>Chẩn đoán <input name="diagnosis" required placeholder="Viêm họng cấp"></label>
+      <label class="full">Ghi chú <textarea name="notes" rows="2" placeholder="Ghi chú điều trị…"></textarea></label>
+      <div class="full"><button class="primary" type="submit">Lưu hồ sơ</button></div>
+    </form>
+    <div class="meta" id="formMeta"></div>
+  </section>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const api = () => $('apiSel').value;
+
+  function chips(meta, extra) {
+    const g = meta.tls_group_edge || '?';
+    const gcls = g.includes('MLKEM') ? 'g-hybrid' : 'g-classic';
+    let h = `<span class="chip api-${meta.served_by === 'python' ? 'python' : 'node'}">API: ${meta.served_by}</span>
+             <span class="chip ${gcls}">TLS H1: ${g}</span>
+             <span class="chip">mode: ${meta.mode}</span>`;
+    if (meta.cache) h += `<span class="chip ${meta.cache === 'hit' ? 'cache-hit' : ''}">cache: ${meta.cache}</span>`;
+    return h + (extra || '');
+  }
+
+  async function loadList() {
+    const r = await fetch(`/${api()}/records`);
+    const d = await r.json();
+    $('count').textContent = `(${d.records.length} hồ sơ)`;
+    $('rows').innerHTML = d.records.map(x =>
+      `<tr onclick="view(${x.id})"><td>${x.id}</td><td>${x.patient_name}</td><td>${x.dob}</td><td>${x.diagnosis}</td></tr>`).join('');
+    $('listMeta').innerHTML = chips(d.meta);
+  }
+
+  async function view(id) {
+    const r = await fetch(`/${api()}/records/${id}`);
+    if (!r.ok) return alert('Không tìm thấy hồ sơ #' + id);
+    const d = await r.json();
+    $('dId').textContent = d.record.id;
+    $('dName').textContent = d.record.patient_name;
+    $('dDob').textContent = d.record.dob;
+    $('dDiag').textContent = d.record.diagnosis;
+    $('dNotes').textContent = d.record.notes || '—';
+    $('dCreated').textContent = d.record.created_at;
+    $('dMeta').innerHTML = chips(d.meta);
+    $('detail').style.display = 'block';
+    $('detail').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  $('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const body = Object.fromEntries(new FormData(e.target));
+    const r = await fetch(`/${api()}/records`, {
+      method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body),
+    });
+    const d = await r.json();
+    if (!r.ok) return alert('Lỗi: ' + JSON.stringify(d));
+    $('formMeta').innerHTML = chips(d.meta, `<span class="chip">đã tạo #${d.record.id}</span>`);
+    e.target.reset();
+    loadList();
+  });
+
+  $('reload').onclick = loadList;
+  $('apiSel').onchange = loadList;
+
+  fetch('/api/tls-info').then(r => r.json()).then(d => {
+    const g = d.edge_group || '?';
+    $('group').textContent = g;
+    $('badge').classList.add(g.includes('MLKEM') ? 'hybrid' : 'classic');
+  });
+  loadList();
+</script>
+</body>
+</html>
