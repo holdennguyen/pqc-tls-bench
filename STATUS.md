@@ -1,5 +1,19 @@
 # STATUS — what ran, what's next (16 Aug, night)
 
+## Phase 3: GREEN — full stack, gates tls/db/cache/api/trace PASS (bench/ui pending phase 4)
+- 11 containers: 2 nginx edges, 4 API instances (python/node × hybrid/classic),
+  postgres 18.6 (TLS1.3-only, hostssl-only pg_hba), redis 8.10 (TLS-only, port 0),
+  otel-collector -> jaeger. All digests pinned; every image OpenSSL >= 3.5 (verified).
+- MODE design: servers accept a group superset (identical config both modes); each
+  CLIENT offers EXACTLY ONE group (nginx proxy_ssl_conf_command / Python OPENSSL_CONF
+  system_default / Node ecdhCurve) -> handshake success PROVES the negotiated group.
+  Python needs the OPENSSL_CONF route because ssl.set_ecdh_curve rejects KEM hybrids.
+- Sensors live in both APIs (same compact-JSON contract), invariants over cached TLS
+  state; OTel auto-instrumentation gives 5–7 span traces per POST (edge->api->db/cache).
+- 50 synthetic VN records seeded; cache-aside verified (2nd read = hit); cross-API
+  read (python-created record read via node) verified through both edges.
+
+
 ## Day-1 gate: GREEN (16 Aug, Claude Code on the Mac)
 - Self-signed ECDSA P-256 cert (SANs for all service hostnames) generated in-container.
 - nginx:mainline (1.31.3, OpenSSL 3.5.6) + alpine/openssl (3.5.7) — both >= 3.5, NO plan B
