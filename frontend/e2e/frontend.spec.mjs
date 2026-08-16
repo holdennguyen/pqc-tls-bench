@@ -104,6 +104,15 @@ for (const edge of EDGES) {
     await page.click('[data-testid=btn-delete]');
     await page.waitForSelector('[data-testid=search-input]');
 
+    // function map: nodes from the live sensor graph, incl. the browser-side half
+    await page.click('nav a[href="/app/map"]');
+    await page.waitForSelector('[data-testid=fn-graph]');
+    await page.waitForSelector('[data-node="c:list_records"]'); // client fn observed earlier
+    const nNodes = await page.locator('[data-testid=fn-graph] g.fn-node').count();
+    const nEdges = await page.locator('[data-testid=fn-graph] path.edge').count();
+    if (nNodes < 10) note(`${tag}: fn-graph too small (${nNodes} nodes)`);
+    if (nEdges < 1) note(`${tag}: fn-graph has no edges`);
+
     // logout closes the auth loop (sensor scope auth: login + logout)
     await page.click('header button.btn');
     await page.waitForSelector('[data-testid=login-form]');

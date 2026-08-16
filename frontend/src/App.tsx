@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import { currentUser } from './auth';
 import Dashboard from './pages/Dashboard';
+import FunctionMap from './pages/FunctionMap';
 import Login from './pages/Login';
 import RecordDetail from './pages/RecordDetail';
 import RecordForm from './pages/RecordForm';
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/records/new" element={<RecordForm />} />
         <Route path="/records/:id" element={<RecordDetail />} />
         <Route path="/records/:id/edit" element={<RecordForm />} />
+        <Route path="/map" element={<FunctionMap />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

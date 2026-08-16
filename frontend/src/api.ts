@@ -104,6 +104,19 @@ export const deleteRecord = sense('api', [meta_present, edge_group_seen], async 
   return request(`/${apiChoice()}/records/${id}`, { method: 'DELETE' });
 });
 
+export type GraphNode = { fn: string; scope: string; count: number; err: number; ms_avg: number };
+export type GraphEdge = { from: string; to: string; count: number };
+export type GraphResult = { api: string; mode: string; nodes: GraphNode[]; edges: GraphEdge[] };
+
+const graph_present: Invariant = {
+  name: 'graph_present',
+  check: (r) => Array.isArray((r as GraphResult)?.nodes),
+};
+
+export const sensorsGraph = sense('api', [graph_present], async function sensors_graph(): Promise<GraphResult> {
+  return request(`/${apiChoice()}/api/sensors/graph`);
+});
+
 // /api/tls-info is edge-level (nginx routes it to the python api unrewritten);
 // its shape has edge_group at top level, not under meta.
 const edge_group_reported: Invariant = {

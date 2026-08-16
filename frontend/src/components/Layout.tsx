@@ -84,6 +84,7 @@ export default function Layout() {
           <NavLink to="/" end>Tổng quan</NavLink>
           <NavLink to="/records">Hồ sơ bệnh án</NavLink>
           <NavLink to="/records/new">Tạo hồ sơ mới</NavLink>
+          <NavLink to="/map">Sơ đồ chức năng</NavLink>
         </nav>
         <div className="ext">
           <h4>Giám sát</h4>
