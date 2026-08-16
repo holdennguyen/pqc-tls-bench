@@ -137,6 +137,18 @@ async def health(request: Request):
     return {"status": "ok", "api": "python", "mode": MODE}
 
 
+@sensor(scope="db", invariants=[db_tls13, db_group_matches_mode])
+async def db_list(limit: int):
+    return await pool.fetch("SELECT * FROM records ORDER BY id LIMIT $1", limit)
+
+
+@app.get("/records")
+@sensor(scope="handler", invariants=[mode_configured])
+async def list_records(request: Request, limit: int = 100):
+    rows = await db_list(min(limit, 200))
+    return {"records": [_rec_to_dict(r) for r in rows], "meta": _meta(request)}
+
+
 @app.get("/records/{record_id}")
 @sensor(scope="handler", invariants=[mode_configured])
 async def get_record(record_id: int, request: Request):

@@ -55,6 +55,12 @@ const db_write = sensor('db', [db_tls13, db_group_matches_mode])(
     return r.rows[0];
   });
 
+const db_list = sensor('db', [db_tls13, db_group_matches_mode])(
+  async function db_list(limit: number) {
+    const r = await pool.query('SELECT * FROM records ORDER BY id LIMIT $1', [limit]);
+    return r.rows;
+  });
+
 const cache_get = sensor('cache', [cache_tls13, cache_group_matches_mode])(
   async function cache_get(key: string) { return cache.get(key); });
 
@@ -88,6 +94,14 @@ const health = sensor('handler', [mode_configured])(
   async function health(req: any, res: any) {
     // no data touch — isolates pure TLS cost
     send(res, 200, { status: 'ok', api: 'node', mode: MODE });
+  });
+
+const list_records = sensor('handler', [mode_configured])(
+  async function list_records(req: any, res: any) {
+    const url = new URL(req.url, 'https://x');
+    const limit = Math.min(parseInt(url.searchParams.get('limit') || '100', 10), 200);
+    const rows = await db_list(limit);
+    send(res, 200, { records: rows.map(recToDict), meta: meta(req) });
   });
 
 const get_record = sensor('handler', [mode_configured])(
@@ -128,6 +142,7 @@ async function route(req: any, res: any) {
   const recordMatch = url.pathname.match(/^\/records\/(\d+)$/);
   try {
     if (req.method === 'GET' && url.pathname === '/health') return await health(req, res);
+    if (req.method === 'GET' && url.pathname === '/records') return await list_records(req, res);
     if (req.method === 'GET' && url.pathname === '/api/tls-info') return await tls_info(req, res);
     if (req.method === 'GET' && recordMatch) return await get_record(req, res, parseInt(recordMatch[1], 10));
     if (req.method === 'POST' && url.pathname === '/records') {

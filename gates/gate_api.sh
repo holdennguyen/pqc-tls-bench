@@ -25,6 +25,11 @@ for port in 8443 8444; do
     echo "$r2" | jq -e '.meta.cache == "hit"' >/dev/null \
       || { echo "CACHE-ASIDE FAIL $mode/$api (second read not a hit): $r2"; fail=1; }
 
+    # 2b) GET /records — list for the UI table (seeded 50 + gate-created rows)
+    l=$(curl -sk "$base/records")
+    echo "$l" | jq -e '(.records | length) >= 50' >/dev/null \
+      || { echo "LIST FAIL $mode/$api"; fail=1; }
+
     # 3) POST /records — end-to-end write
     p=$(curl -sk -X POST "$base/records" -H 'content-type: application/json' \
       -d "{\"patient_name\":\"Gate Test $mode-$api-$STAMP\",\"dob\":\"1990-01-01\",\"diagnosis\":\"gate check\",\"notes\":\"synthetic\"}")
