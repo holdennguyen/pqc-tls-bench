@@ -3,4 +3,4 @@
 # TODO(claude-code): curl -k https://localhost:8443/ and :8444/ -> 200;
 # curl -k https://localhost:8443/api/tls-info | jq .group == "X25519MLKEM768"; :8444 == "X25519";
 # test -s results/scan.html && grep -q 'verdict' results/scan.html
-echo "GATE_UI: TODO"; exit 1
+echo "GATE_UI: PENDING (phase 4 — UI layer not built yet)"; exit 2
