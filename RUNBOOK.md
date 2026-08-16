@@ -65,11 +65,17 @@ TLS, gates db/cache/api/trace green. Commit per feature, gates before commits."*
 3. 🤖 inject numbers → I (Cowork) fill thesis Ch.4–5 slots from results/
 4. ⌨️ Record backup demo video (script in DEMO.md), rehearse ×2
 
+## Phase 5 — SPA rebuild (🤖 done 16 Aug, after Phase 4)
+The static UI was replaced by a React+Vite SPA (frontend/ → committed dist in static/app/).
+Rebuild after any frontend/ change: `make ui-build` (runs in the pinned node image; gate_ui_build
+fails on a stale dist). e2e behavior gate: `sh gates/gate_frontend.sh` (Playwright, both edges).
+Rollback to the pre-rebuild build: `git checkout v1.0-defense`.
+
 ## The demo UI layer (all parts get a UI — see CLAUDE.md §UI)
 | URL (local) | What the committee sees |
 |---|---|
 | https://localhost:8443  | **Demo portal** — landing page linking everything below |
-| https://localhost:8443/app | Medical-records UI (list/view/create records) — mode badge shows negotiated group live |
+| https://localhost:8443/app | Medical-records SPA (demo login → dashboard → CRUD + search) — TLS badge live, telemetry strip prints frontend sensor lines |
 | http://localhost:3000   | Grafana — hybrid vs classic dashboard under live k6 load |
 | http://localhost:16686  | Jaeger — one trace: edge → API → DB/cache |
 | https://localhost:8443/scan | pqscan HTML report — which real websites are PQC-ready |

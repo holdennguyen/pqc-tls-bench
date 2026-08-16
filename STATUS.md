@@ -1,5 +1,28 @@
 # STATUS — what ran, what's next (16 Aug, night)
 
+## Phase 5: COMPLETE — fullstack SPA rebuild, 9/9 GATES GREEN (16 Aug, after Phase 4)
+- Rollback pin first: tag v1.0-defense = the pre-rebuild all-green build (pushed).
+- static/app is now a COMMITTED React+Vite+TS build artifact of frontend/ (make ui-build,
+  runs in the pinned node:25 image — no host node). Served unchanged by both edges; the
+  only nginx change is an SPA-fallback line (identical in both mode configs). Testbed
+  topology and the experiment variable untouched; measurement gates stayed green throughout.
+- App: fake demo login -> dashboard (live TLS stats, two-gates panel) -> records CRUD +
+  search + pagination; MetaChips on every response (api / tls group / cache); bottom
+  TELEMETRY STRIP live-prints the last frontend sensor line. Be Vietnam Pro + IBM Plex
+  Mono bundled locally (offline-safe demo).
+- Both APIs extended identically: GET /records?search=&limit=&offset= (+meta.total),
+  PUT and DELETE /records/{id} with sensor-wrapped cache invalidation; gate_api now
+  proves pagination, search, PUT cross-API round-trip, DELETE-gone — and cleans up after itself.
+- Code-monitoring loop extended to the frontend: sensors.ts mirrors the backend JSON
+  contract into the browser console (scopes api/route/auth; localStorage.LOG_SENSORS="1"
+  = debug flag); gate_frontend reads it back via Playwright (pinned mcr image v1.62.1,
+  lib version-matched) running the full journey on BOTH edges. gate_ui_build guards
+  dist freshness via a source-hash stamp. Both gates landed BEFORE the feature as
+  PENDING (first real use of exit-2) and flipped to PASS commit by commit.
+- Loop paid off immediately: screenshot review caught esbuild stripping Function.name
+  (sensor fn:anonymous) -> esbuild.keepNames + a permanent spec assertion.
+- Skills vendored: webapp-testing (anthropics/skills) + frontend-design (anthropics/claude-code).
+
 ## Phase 4: COMPLETE — benchmarks run, UI live, ALL GATES GREEN
 Headline numbers (results/summary.json, 3 reps, 95% CI):
 - Probe (100 handshakes/rep/hop): hybrid adds +0.077..+0.113 ms p50 per hop

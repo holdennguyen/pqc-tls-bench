@@ -1,6 +1,7 @@
 # DEMO — defense walkthrough (~6 phút) + backup video script
 
-Chuẩn bị (trước khi vào phòng): `colima start` → `make up` → `make gates` (phải GREEN).
+Chuẩn bị (trước khi vào phòng): `colima start` → `make up` → `make ui-build` (chỉ cần
+sau khi clone mới hoặc khi frontend/ thay đổi) → `make gates` (phải GREEN, 9/9).
 Mở sẵn 5 tab: `https://localhost:8443` · `https://localhost:8444` · `:8443/app` ·
 `http://localhost:3000/d/pqc-vs-classic` · `http://localhost:16686`.
 
