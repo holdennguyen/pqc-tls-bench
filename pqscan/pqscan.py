@@ -23,8 +23,10 @@ Usage:
 # ---------------------------------------------------------------------------
 import argparse, json, subprocess, sys, os, re, datetime, html
 
-# "Peer Temp Key" is the always-present field naming the server's chosen key-exchange group.
-GROUP_RE = re.compile(r"(?:Peer|Server) Temp Key:\s*([A-Za-z0-9_]+)", re.I)
+# OpenSSL 3.5 -brief prints the negotiated group in TWO formats: hybrid/KEM groups as
+# "Negotiated TLS1.3 group: X25519MLKEM768", classical curves as "Peer Temp Key: X25519".
+# Matching only Temp Key silently miscounts every PQC-ready host as an error (a false 0%).
+GROUP_RE = re.compile(r"(?:Negotiated TLS1\.3 group|(?:Peer|Server) Temp Key):\s*([A-Za-z0-9_]+)", re.I)
 
 def scan_host(host, openssl_bin, timeout=5):
     cmd = [openssl_bin, "s_client", "-connect", f"{host}:443", "-servername", host,
