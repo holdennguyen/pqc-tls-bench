@@ -115,7 +115,11 @@ Run install-skills-global.command once if you also want these outside this repo.
    status via MetaChips; the bottom telemetry strip live-prints the last frontend
    sensor line ({ts,fn,scope,ok,ms,invariant_results} to browser console — same
    contract as backend sensors, read back by gate_frontend via Playwright).
-   This is the "database call / UI response" story made visible.
+   This is the "database call / UI response" story made visible. /app/map
+   ("Sơ đồ chức năng") renders the OBSERVED function-call graph — sensors track
+   parent->child calls (contextvars / AsyncLocalStorage, stdlib only) exposed at
+   GET /api/sensors/graph — a function-level mesh view WITHOUT a mesh, so the
+   TLS experiment variable stays visible.
 3. pqscan --html results/scan.html — self-contained report: summary stat tiles
    (% PQC-ready), sortable host table with verdict badges, plain-language exposure notes
    in Vietnamese. nginx serves it at /scan.

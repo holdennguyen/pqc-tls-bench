@@ -26,6 +26,13 @@
 - Loop paid off immediately: screenshot review caught esbuild stripping Function.name
   (sensor fn:anonymous) -> esbuild.keepNames + a permanent spec assertion.
 - Skills vendored: webapp-testing (anthropics/skills) + frontend-design (anthropics/claude-code).
+- Function-map page (/app/map): sensors now track parent->child calls
+  (contextvars / AsyncLocalStorage, stdlib) + aggregate count/err/ms per fn;
+  GET /api/sensors/graph on both APIs; SPA draws the OBSERVED call graph
+  browser->handler->db/cache->stores as a live SVG DAG (3s poll, mode-color
+  pulse on active edges). The demo argument: a function-level mesh view
+  WITHOUT a mesh — the TLS variable stays visible. gate_api asserts nodes +
+  the get_record->db_read edge; gate_frontend asserts the page renders.
 
 ## Phase 4: COMPLETE — benchmarks run, UI live, ALL GATES GREEN
 Headline numbers (results/summary.json, 3 reps, 95% CI):

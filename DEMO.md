@@ -21,6 +21,11 @@ Mở sẵn 5 tab: `https://localhost:8443` · `https://localhost:8444` · `:8443
 - CHỈ VÀO DẢI "ĐƯỜNG TRUYỀN" ở chân trang: mỗi thao tác in một dòng sensor
   (fn, ms, ok, bất biến) — đúng contract sensor của backend, chạy ngay trong trình duyệt.
   Bật chi tiết: DevTools console + `localStorage.LOG_SENSORS="1"`.
+- Mở "Sơ đồ chức năng" (/app/map): đồ thị gọi hàm QUAN SÁT THẬT từ sensor —
+  trình duyệt → handler → db/cache → PostgreSQL/Redis (nhãn nhóm TLS). Câu chốt:
+  "Đây là góc nhìn service mesh — nhưng không cần mesh, nên biến số TLS không bị
+  sidecar che mất. Đề tài cố tình loại mesh vì lý do khoa học (mục 4 FAQ)."
+  Thao tác vài hồ sơ ở tab kia → cạnh nhấp nháy theo màu chế độ.
 
 ## 3. Truy vết một request (60s)
 - Jaeger: service `api-python-hybrid`, Find Traces → mở trace POST /records:
