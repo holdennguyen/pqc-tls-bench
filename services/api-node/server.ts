@@ -5,7 +5,7 @@ import https from 'node:https';
 import fs from 'node:fs';
 import { Pool } from 'pg';
 import { createClient } from 'redis';
-import { sensor } from './sensors.ts';
+import { graphSnapshot, sensor } from './sensors.ts';
 import {
   MODE, GROUP, STATE,
   db_tls13, db_group_matches_mode, cache_tls13, cache_group_matches_mode, mode_configured,
@@ -179,6 +179,12 @@ const delete_record = sensor('handler', [mode_configured])(
     send(res, 200, { deleted: id, meta: meta(req) });
   });
 
+const sensors_graph = sensor('handler', [mode_configured])(
+  async function sensors_graph(req: any, res: any) {
+    // the observed function-call graph (see sensors.ts) — the "mesh view"
+    send(res, 200, { api: 'node', mode: MODE, ...graphSnapshot() });
+  });
+
 const tls_info = sensor('handler', [mode_configured])(
   async function tls_info(req: any, res: any) {
     send(res, 200, {
@@ -198,6 +204,7 @@ async function route(req: any, res: any) {
     if (req.method === 'GET' && url.pathname === '/health') return await health(req, res);
     if (req.method === 'GET' && url.pathname === '/records') return await list_records(req, res);
     if (req.method === 'GET' && url.pathname === '/api/tls-info') return await tls_info(req, res);
+    if (req.method === 'GET' && url.pathname === '/api/sensors/graph') return await sensors_graph(req, res);
     if (req.method === 'GET' && recordMatch) return await get_record(req, res, parseInt(recordMatch[1], 10));
     if (req.method === 'POST' && url.pathname === '/records') {
       let raw = '';

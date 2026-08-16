@@ -12,7 +12,7 @@ import asyncpg
 import redis.asyncio as aioredis
 from fastapi import FastAPI, HTTPException, Request
 
-from sensors import sensor
+from sensors import graph_snapshot, sensor
 import tls_state
 from tls_state import (
     MODE,
@@ -239,6 +239,13 @@ async def delete_record(record_id: int, request: Request):
         raise HTTPException(status_code=404, detail="record not found")
     await cache_del(f"rec:{record_id}")
     return {"deleted": record_id, "meta": _meta(request)}
+
+
+@app.get("/api/sensors/graph")
+@sensor(scope="handler", invariants=[mode_configured])
+async def sensors_graph(request: Request):
+    # the observed function-call graph (see sensors.py) — the "mesh view"
+    return {"api": "python", "mode": MODE, **graph_snapshot()}
 
 
 @app.get("/api/tls-info")

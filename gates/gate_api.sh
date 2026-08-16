@@ -66,6 +66,14 @@ for port in 8443 8444; do
       || { echo "DELETE FAIL $mode/$api id=$id"; fail=1; }
     code=$(curl -sk -o /dev/null -w '%{http_code}' "$base/records/$id")
     [ "$code" = 404 ] || { echo "DELETE NOT-GONE FAIL $mode/$api id=$id -> $code"; fail=1; }
+
+    # 7b) sensors graph: the calls above must be visible as nodes AND as the
+    # observed handler->db edge (function-level "mesh view" from the sensors)
+    gr=$(curl -sk "$base/api/sensors/graph")
+    echo "$gr" | jq -e '(.nodes[] | select(.fn == "list_records") | .count) >= 1' >/dev/null \
+      || { echo "GRAPH NODE FAIL $mode/$api: $gr" | head -c 400; echo; fail=1; }
+    echo "$gr" | jq -e '.edges[] | select(.from == "get_record" and .to == "db_read")' >/dev/null \
+      || { echo "GRAPH EDGE FAIL $mode/$api (no get_record->db_read)"; fail=1; }
   done
 
   # 8) edge reports the negotiated H1 group to the app layer (X-TLS-Group -> edge_group).
