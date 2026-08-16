@@ -8,8 +8,11 @@
   topology and the experiment variable untouched; measurement gates stayed green throughout.
 - App: fake demo login -> dashboard (live TLS stats, two-gates panel) -> records CRUD +
   search + pagination; MetaChips on every response (api / tls group / cache); bottom
-  TELEMETRY STRIP live-prints the last frontend sensor line. Be Vietnam Pro + IBM Plex
-  Mono bundled locally (offline-safe demo).
+  TELEMETRY STRIP live-prints the last frontend sensor line. Redesigned to the
+  "peer review" direction (paper-white, Literata serif justified, booktabs tables,
+  chips as outlined annotations, strip as a running † footnote); Literata + IBM
+  Plex Mono bundled locally (offline-safe demo). Condition colors kept semantic:
+  ink-blue = X25519, carmine = X25519MLKEM768.
 - Both APIs extended identically: GET /records?search=&limit=&offset= (+meta.total),
   PUT and DELETE /records/{id} with sensor-wrapped cache invalidation; gate_api now
   proves pagination, search, PUT cross-API round-trip, DELETE-gone — and cleans up after itself.

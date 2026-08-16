@@ -41,7 +41,7 @@ export default function Dashboard() {
 
       <div className="panel">
         <h2>Kết nối vừa dùng</h2>
-        <p style={{ color: 'var(--muted)', fontSize: 13, margin: '0 0 10px' }}>
+        <p style={{ color: 'var(--faded)', fontSize: 13, margin: '0 0 10px' }}>
           Mỗi phản hồi mang theo nguồn gốc của nó: API phục vụ, nhóm TLS ở biên, trạng thái cache.
         </p>
         <MetaChips meta={meta} />
@@ -56,7 +56,7 @@ export default function Dashboard() {
 
       <div className="panel">
         <h2>Hai cổng, một biến số</h2>
-        <p style={{ color: 'var(--muted)', fontSize: 13, margin: '0 0 10px' }}>
+        <p style={{ color: 'var(--faded)', fontSize: 13, margin: '0 0 10px' }}>
           Ứng dụng này được phục vụ y hệt ở hai cổng — khác biệt duy nhất là nhóm trao đổi khóa của TLS.
         </p>
         <p style={{ margin: 0 }} className="mono">

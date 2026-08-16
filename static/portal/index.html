@@ -5,58 +5,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PQC-TLS Testbed — Hồ sơ bệnh án</title>
 <style>
+  /* "peer review" direction, in step with the SPA: paper, ink, condition colors.
+     (System serif stack — the SPA's bundled Literata lives behind hashed asset names.) */
   :root {
-    --bg: #0b0f1a; --panel: #141b2d; --panel2: #1b2540; --line: #263352;
-    --text: #e8edf7; --muted: #8b96ad;
-    --classic: #4da3ff; --hybrid: #ff5d6c; --ok: #3ddc97;
+    --paper: #f7f5f0; --paper2: #efece4; --rule: #c9c2b4; --rule-heavy: #1c1a17;
+    --ink: #1c1a17; --faded: #6e6759;
+    --classic: #1f5fa8; --hybrid: #a4243b; --ok: #2e6b4f;
   }
   * { box-sizing: border-box; margin: 0; }
   body {
-    background: var(--bg); color: var(--text); min-height: 100vh;
-    font: 16px/1.55 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--paper); color: var(--ink); min-height: 100vh;
+    font: 16px/1.62 Charter, "Iowan Old Style", Georgia, "Times New Roman", serif;
   }
   header {
-    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
-    justify-content: space-between; padding: 20px 28px; border-bottom: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline;
+    justify-content: space-between; max-width: 900px; margin: 0 auto;
+    padding: 34px 28px 16px; border-bottom: 3px double var(--rule-heavy);
   }
-  header h1 { font-size: 20px; font-weight: 650; letter-spacing: .2px; }
-  header h1 span { color: var(--muted); font-weight: 400; }
+  header h1 { font-size: 23px; font-weight: 700; letter-spacing: -0.01em; }
+  header h1 span { color: var(--faded); font-weight: 400; font-style: italic; font-size: 15px; }
   .badge {
-    display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px;
-    border-radius: 999px; border: 1px solid var(--line); background: var(--panel);
-    font-size: 14px;
+    display: inline-flex; align-items: center; gap: 9px; padding: 6px 12px;
+    border: 1px solid var(--rule); background: var(--paper); font-size: 13px; color: var(--faded);
   }
-  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
-  .badge.classic .dot { background: var(--classic); box-shadow: 0 0 8px var(--classic); }
-  .badge.hybrid  .dot { background: var(--hybrid);  box-shadow: 0 0 8px var(--hybrid); }
-  .badge b { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; }
-  main { max-width: 1080px; margin: 0 auto; padding: 36px 28px 60px; }
-  .intro { color: var(--muted); max-width: 720px; margin-bottom: 30px; }
-  .intro strong { color: var(--text); }
-  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--faded); }
+  .badge.classic { border-color: var(--classic); color: var(--classic); }
+  .badge.hybrid  { border-color: var(--hybrid);  color: var(--hybrid); }
+  .badge.classic .dot { background: var(--classic); }
+  .badge.hybrid  .dot { background: var(--hybrid); }
+  .badge b { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; }
+  main { max-width: 900px; margin: 0 auto; padding: 26px 28px 60px; }
+  .intro {
+    color: var(--ink); max-width: 720px; margin-bottom: 30px;
+    text-align: justify; hyphens: auto; font-size: 15.5px;
+  }
+  .intro strong { font-weight: 700; }
+  .grid { display: grid; gap: 0 28px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); border-top: 2px solid var(--rule-heavy); }
   a.card {
-    display: block; padding: 22px; border-radius: 14px; text-decoration: none;
-    color: var(--text); background: var(--panel); border: 1px solid var(--line);
-    transition: transform .12s ease, border-color .12s ease;
+    display: block; padding: 18px 2px 20px; text-decoration: none;
+    color: var(--ink); border-bottom: 1px solid var(--rule);
   }
-  a.card:hover { transform: translateY(-2px); border-color: #3a4d7a; background: var(--panel2); }
-  .card .ic { font-size: 26px; }
-  .card h2 { font-size: 17px; margin: 10px 0 6px; }
-  .card p { font-size: 14px; color: var(--muted); }
+  a.card:hover h2 { text-decoration: underline; text-underline-offset: 3px; }
+  .card .ic { font-size: 20px; }
+  .card h2 { font-size: 16.5px; font-weight: 700; margin: 8px 0 6px; }
+  .card p { font-size: 13.5px; color: var(--faded); text-align: justify; hyphens: auto; }
   .modes { margin-top: 34px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-  .mode {
-    padding: 18px 22px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line);
-    font-size: 14px;
-  }
-  .mode h3 { font-size: 15px; margin-bottom: 6px; }
+  .mode { padding: 14px 18px; border: 1px solid var(--rule); font-size: 14px; }
+  .mode h3 { font-size: 14px; margin-bottom: 6px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+  .mode.classic { border-left: 3px solid var(--classic); }
+  .mode.hybrid  { border-left: 3px solid var(--hybrid); }
   .mode.classic h3 { color: var(--classic); }
   .mode.hybrid  h3 { color: var(--hybrid); }
   .mode code, .intro code {
     font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px;
-    background: var(--panel2); padding: 2px 6px; border-radius: 6px;
+    background: var(--paper2); padding: 2px 6px;
   }
-  .mode p { color: var(--muted); margin-top: 4px; }
-  footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
+  .mode p { color: var(--faded); margin-top: 6px; text-align: justify; hyphens: auto; }
+  footer {
+    color: var(--faded); font-size: 13px; margin-top: 44px; padding-top: 10px;
+    border-top: 1px solid var(--rule); font-style: italic; text-align: justify;
+  }
+  footer::before { content: '† '; color: var(--faded); font-style: normal; }
 </style>
 </head>
 <body>
