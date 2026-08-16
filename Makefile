@@ -1,4 +1,4 @@
-.PHONY: up down verify gates bench scan clean
+.PHONY: up down verify gates bench scan clean ui-build
 # Prereq (once): brew install colima docker docker-compose && colima start --cpu 8 --memory 12
 up:
 	docker compose up -d --build
@@ -28,6 +28,15 @@ gates:
 	[ $$fail -eq 0 ] && echo "GATES: GREEN (no failures)" || { echo "GATES: RED"; exit 1; }
 bench:
 	sh bench/run_all.sh
+# Build the SPA (frontend/ -> static/app/, committed artifact) inside the same
+# pinned node image the api-node service uses; stamp the source hash for
+# gate_ui_build's stale-dist check. No host node required.
+NODE_IMG=node:25-slim@sha256:81db02c4b671288a03915da9534dbd54f96d0e7c24d80ccc54f5b36b2e684370
+ui-build:
+	docker run --rm -v "$(PWD):/repo" -w /repo/frontend $(NODE_IMG) \
+	  sh -c "npm ci --no-audit --no-fund && npm run build"
+	sh frontend/srchash.sh > static/app/.srchash
+	@echo "UI BUILD DONE -> static/app/"
 # scan runs in-container: needs a FULL OpenSSL 3.5 client (see pqscan.py FIELD NOTE)
 scan:
 	docker run --rm -v "$(PWD)/pqscan:/pqscan:ro" -v "$(PWD)/results:/results" \
