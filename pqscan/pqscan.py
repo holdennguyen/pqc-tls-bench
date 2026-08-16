@@ -27,6 +27,7 @@ import argparse, json, subprocess, sys, os, re, datetime, html
 # "Negotiated TLS1.3 group: X25519MLKEM768", classical curves as "Peer Temp Key: X25519".
 # Matching only Temp Key silently miscounts every PQC-ready host as an error (a false 0%).
 GROUP_RE = re.compile(r"(?:Negotiated TLS1\.3 group|(?:Peer|Server) Temp Key):\s*([A-Za-z0-9_]+)", re.I)
+PROTO_RE = re.compile(r"Protocol version:\s*(TLSv[0-9.]+)")
 
 def scan_host(host, openssl_bin, timeout=5):
     cmd = [openssl_bin, "s_client", "-connect", f"{host}:443", "-servername", host,
@@ -35,23 +36,39 @@ def scan_host(host, openssl_bin, timeout=5):
         r = subprocess.run(cmd, input=b"", capture_output=True, timeout=timeout + 3)
         out = (r.stdout + r.stderr).decode(errors="replace")
         m = GROUP_RE.search(out)
+        pm = PROTO_RE.search(out)
         group = m.group(1) if m else None
+        proto = pm.group(1) if pm else None
+        connected = "CONNECTION ESTABLISHED" in out or proto is not None
         if group is None:
-            # Distinguish "server unreachable/refused" from "TLS worked but WE failed to
-            # parse the group" — the latter is a scanner regression (the false-0% class)
-            # and must be loud, never counted as a host-side error.
-            connected = "CONNECTION ESTABLISHED" in out or "Protocol version:" in out
+            # Connected on TLS<=1.2 with NO Temp Key line = static-RSA key exchange
+            # (e.g. ciphersuite AES128-GCM-SHA256): no ephemeral group exists to parse.
+            # No forward secrecy — the WORST harvest-now-decrypt-later exposure.
+            if connected and proto and proto != "TLSv1.3":
+                return {"host": host, "status": "ok", "protocol": proto,
+                        "negotiated_group": "RSA-static", "supports_pqc": False,
+                        "note": f"{proto}, trao đổi khóa RSA TĨNH — không có forward secrecy: "
+                                "một khóa riêng bị lộ (hoặc bị máy tính lượng tử phá) giải mã "
+                                "TOÀN BỘ lưu lượng đã ghi lại từ trước tới nay."}
+            # Otherwise: distinguish "server unreachable/refused" from "TLS 1.3 worked but
+            # WE failed to parse" — the latter is a scanner regression (false-0% class).
             status = "parse-error" if connected else "error"
             note = ("TLS connected but no group parsed — GROUP_RE regression? raw tail: "
                     + out.strip().splitlines()[-1][:100]) if connected else \
                    (out.strip().splitlines()[-1][:160] if out.strip() else "no response")
-            return {"host": host, "status": status, "negotiated_group": None,
-                    "supports_pqc": None, "note": note}
+            return {"host": host, "status": status, "protocol": proto,
+                    "negotiated_group": None, "supports_pqc": None, "note": note}
         pqc = "MLKEM" in group.upper()
-        return {"host": host, "status": "ok", "negotiated_group": group, "supports_pqc": pqc,
-                "note": ("Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
-                         if pqc else
-                         "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL).")}
+        if pqc:
+            note = "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
+        elif group.upper() == "DH" and proto != "TLSv1.3":
+            note = (f"{proto} cũ, rơi về DHE trường hữu hạn (máy chủ không nhận X25519 trong "
+                    "danh sách nhóm hiện đại của scanner; bình thường nó dùng ECDHE P-256). "
+                    "Dù cách nào cũng CHƯA có PQC — dễ tổn thương HNDL.")
+        else:
+            note = "CHƯA hỗ trợ PQC: kết nối tới máy chủ này hôm nay có thể bị ghi lại và giải mã trong tương lai bởi máy tính lượng tử (HNDL)."
+        return {"host": host, "status": "ok", "protocol": proto,
+                "negotiated_group": group, "supports_pqc": pqc, "note": note}
     except subprocess.TimeoutExpired:
         return {"host": host, "status": "error", "negotiated_group": None, "supports_pqc": None, "note": "timeout"}
     except Exception as e:
