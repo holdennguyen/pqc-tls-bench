@@ -12,9 +12,14 @@ Mở sẵn 5 tab: `https://localhost:8443` · `https://localhost:8444` · `:8443
 - Terminal: `make verify` → in "Negotiated group: X25519MLKEM768 / X25519".
 
 ## 2. Ứng dụng bệnh án — mọi chặng nhìn thấy được (90s)
-- /app: bảng 50 hồ sơ (dữ liệu tổng hợp). Đổi dropdown Python ⇄ Node — chip màu đổi theo.
+- /app: đăng nhập demo (bất kỳ tài khoản nào — nói rõ "xác thực chỉ minh họa").
+- Danh sách hồ sơ (dữ liệu tổng hợp): tìm kiếm theo tên/chẩn đoán, phân trang.
+  Đổi dropdown Python ⇄ Node — chip màu đổi theo.
 - Tạo một hồ sơ mới → chip hiện: API phục vụ, nhóm TLS của kết nối, cache hit/miss.
-- Bấm một hồ sơ 2 lần → lần 2 chip `cache: hit` (Redis, cũng qua TLS).
+- Mở một hồ sơ rồi bấm "Tải lại (xem cache)" → chip `cache: hit` (Redis, cũng qua TLS).
+- CHỈ VÀO DẢI "ĐƯỜNG TRUYỀN" ở chân trang: mỗi thao tác in một dòng sensor
+  (fn, ms, ok, bất biến) — đúng contract sensor của backend, chạy ngay trong trình duyệt.
+  Bật chi tiết: DevTools console + `localStorage.LOG_SENSORS="1"`.
 
 ## 3. Truy vết một request (60s)
 - Jaeger: service `api-python-hybrid`, Find Traces → mở trace POST /records:

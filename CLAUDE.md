@@ -64,9 +64,15 @@ Existing gates (implement to match, extend as features grow):
   gates/gate_tls.sh    — hybrid endpoint negotiates X25519MLKEM768, classic negotiates X25519
   gates/gate_db.sh     — both APIs' PG connections: pg_stat_ssl ssl=true, TLSv1.3, expected group
   gates/gate_cache.sh  — redis INFO: ssl:1, connection alive from both APIs
-  gates/gate_api.sh    — all 3 endpoints return correct data on both APIs, sensor lines present
+  gates/gate_api.sh    — full CRUD + search/pagination correct on both APIs, cross-API
+                         visibility, cache invalidation on PUT/DELETE, sensor lines present
   gates/gate_trace.sh  — one POST /records produces a trace with >=3 spans in Jaeger
   gates/gate_bench.sh  — results/*.csv exist, >=3 reps, CI computable, no empty cells
+  gates/gate_ui_build.sh — committed static/app dist is a real vite artifact and not
+                         stale vs frontend/ source (srchash stamp from make ui-build)
+  gates/gate_frontend.sh — Playwright (pinned mcr image, compose network, both edges):
+                         full user journey, zero console errors, sensor lines per scope
+                         api/route/auth, no failed invariants, X25519 badge exact on classic
 `make gates` runs all. CI habit: run `make gates` after every feature commit.
 
 ## Day-1 gate (DO THIS FIRST, tonight)
@@ -102,9 +108,14 @@ Run install-skills-global.command once if you also want these outside this repo.
    header badge fetches /api/tls-info and shows the LIVE negotiated group + mode color
    (blue=X25519, red=X25519MLKEM768). nginx must expose negotiated group to the app
    (proxy_set_header X-TLS-Group $ssl_curve;) — each API echoes it at GET /api/tls-info.
-2. static/app/ — medical-records UI (vanilla JS, no build step): table of records,
-   view one, create form; every response shows which API served it (python|node) and
-   the TLS group it saw. This is the "database call / UI response" story made visible.
+2. static/app/ — medical-records SPA, a COMMITTED build artifact of frontend/
+   (React+Vite+TS; `make ui-build` builds in the pinned node image — no host node).
+   Login (fake, demo-labeled) -> dashboard -> records CRUD + search + pagination;
+   every response shows which API served it (python|node), the TLS group and cache
+   status via MetaChips; the bottom telemetry strip live-prints the last frontend
+   sensor line ({ts,fn,scope,ok,ms,invariant_results} to browser console — same
+   contract as backend sensors, read back by gate_frontend via Playwright).
+   This is the "database call / UI response" story made visible.
 3. pqscan --html results/scan.html — self-contained report: summary stat tiles
    (% PQC-ready), sortable host table with verdict badges, plain-language exposure notes
    in Vietnamese. nginx serves it at /scan.

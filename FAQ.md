@@ -94,8 +94,9 @@ của scanner", KHÔNG kết luận sai là thiếu HTTPS. Phân loại bằng p
 ## D. Vận hành & tái lập
 
 **17. Chạy lại toàn bộ thí nghiệm?**
-`colima start` → `make up` → `make gates` (7/7 PASS) → `make bench` (~25 phút, ghi
-results/) → `make scan`. Mọi thứ trong repo công khai; image pin digest.
+`colima start` → `make up` → `make ui-build` (dựng SPA trong image node đã pin) →
+`make gates` (9/9 PASS) → `make bench` (~25 phút, ghi results/) → `make scan`.
+Mọi thứ trong repo công khai; image pin digest.
 
 **18. Demo tải trực tiếp khi bảo vệ?**
 Hai lệnh trong DEMO.md (một cho mỗi cổng). An toàn theo thiết kế: chỉ run_all.sh với
@@ -104,9 +105,11 @@ làm bẩn dữ liệu luận văn.
 
 **19. Triết lý "gate" là gì?**
 Vòng điều khiển: tính năng CHƯA TỒN TẠI cho tới khi gate (script yes/no tất định) xanh.
-7 gates phủ: thương lượng nhóm, DB/cache TLS, tương đương chức năng 2 API, trace, chất lượng
-đo đạc, UI. `make gates` chạy sau mỗi commit; PENDING (exit 2) ≠ FAIL để tính năng tương lai
-không che hồi quy.
+9 gates phủ: thương lượng nhóm, DB/cache TLS, tương đương chức năng 2 API (CRUD + tìm kiếm),
+trace, chất lượng đo đạc, UI tĩnh, tính toàn vẹn bản dựng SPA, và hành vi frontend
+(Playwright đọc lại sensor console — cùng một vòng điều khiển như backend). `make gates`
+chạy sau mỗi commit; PENDING (exit 2) ≠ FAIL để tính năng tương lai không che hồi quy —
+hai gate frontend đã sống ở trạng thái PENDING trước khi SPA tồn tại, đúng triết lý này.
 
 ## E. Giới hạn tự khai (trước khi hội đồng hỏi)
 
