@@ -1,0 +1,451 @@
+{
+ "uid": "pqc-vs-classic",
+ "title": "PQC vs Classic \u2014 hybrid X25519MLKEM768 vs X25519",
+ "tags": [
+  "pqc",
+  "tls",
+  "thesis"
+ ],
+ "timezone": "browser",
+ "refresh": "5s",
+ "time": {
+  "from": "now-30m",
+  "to": "now"
+ },
+ "templating": {
+  "list": []
+ },
+ "annotations": {
+  "list": []
+ },
+ "editable": true,
+ "schemaVersion": 39,
+ "panels": [
+  {
+   "id": 1,
+   "type": "stat",
+   "title": "B\u1eaft tay TLS p95 \u2014 LAI GH\u00c9P (churn)",
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 6,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "targets": [
+    {
+     "expr": "max(k6_http_req_tls_handshaking_p95{testid=~\"hybrid-churn.*\"})",
+     "legendFormat": "hybrid",
+     "refId": "A"
+    }
+   ],
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "colorMode": "value",
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ms",
+     "decimals": 2,
+     "color": {
+      "mode": "fixed",
+      "fixedColor": "#ff5d6c"
+     }
+    },
+    "overrides": []
+   }
+  },
+  {
+   "id": 2,
+   "type": "stat",
+   "title": "B\u1eaft tay TLS p95 \u2014 C\u1ed4 \u0110I\u1ec2N (churn)",
+   "gridPos": {
+    "x": 6,
+    "y": 0,
+    "w": 6,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "targets": [
+    {
+     "expr": "max(k6_http_req_tls_handshaking_p95{testid=~\"classic-churn.*\"})",
+     "legendFormat": "classic",
+     "refId": "A"
+    }
+   ],
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "colorMode": "value",
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ms",
+     "decimals": 2,
+     "color": {
+      "mode": "fixed",
+      "fixedColor": "#4da3ff"
+     }
+    },
+    "overrides": []
+   }
+  },
+  {
+   "id": 3,
+   "type": "text",
+   "title": "",
+   "gridPos": {
+    "x": 12,
+    "y": 0,
+    "w": 12,
+    "h": 5
+   },
+   "options": {
+    "mode": "markdown",
+    "content": "### M\u1ed9t bi\u1ebfn s\u1ed1 duy nh\u1ea5t: nh\u00f3m trao \u0111\u1ed5i kh\u00f3a\n**\u0110\u1ece = lai gh\u00e9p** `X25519MLKEM768` (h\u1eadu l\u01b0\u1ee3ng t\u1eed, FIPS 203) \u00b7 **XANH = c\u1ed5 \u0111i\u1ec3n** `X25519`\n\n**churn** = m\u1ed7i request m\u1ed9t k\u1ebft n\u1ed1i m\u1edbi (b\u1eaft tay \u0111\u1ea7y \u0111\u1ee7) \u00b7 **pooled** = k\u1ebft n\u1ed1i t\u00e1i s\u1eed d\u1ee5ng (chi ph\u00ed b\u1eaft tay kh\u1ea5u hao \u2248 0 \u2014 gi\u1ea3 thuy\u1ebft c\u1ee7a \u0111\u1ec1 t\u00e0i)"
+   }
+  },
+  {
+   "id": 4,
+   "type": "timeseries",
+   "title": "B\u1eaft tay TLS \u2014 p95 theo ch\u1ebf \u0111\u1ed9 & h\u1ed3 s\u01a1 t\u1ea3i (ms)",
+   "gridPos": {
+    "x": 0,
+    "y": 5,
+    "w": 12,
+    "h": 9
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "targets": [
+    {
+     "expr": "max by (testid) (k6_http_req_tls_handshaking_p95)",
+     "legendFormat": "{{testid}}",
+     "refId": "A"
+    }
+   ],
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ms",
+     "custom": {
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/hybrid/"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#ff5d6c"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/classic/"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#4da3ff"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/pooled/"
+      },
+      "properties": [
+       {
+        "id": "custom.lineStyle",
+        "value": {
+         "fill": "dash",
+         "dash": [
+          6,
+          4
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": 5,
+   "type": "timeseries",
+   "title": "Th\u1eddi gian ph\u1ea3n h\u1ed3i request \u2014 p95 (ms)",
+   "gridPos": {
+    "x": 12,
+    "y": 5,
+    "w": 12,
+    "h": 9
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "targets": [
+    {
+     "expr": "max by (testid) (k6_http_req_duration_p95)",
+     "legendFormat": "{{testid}}",
+     "refId": "A"
+    }
+   ],
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ms",
+     "custom": {
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/hybrid/"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#ff5d6c"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/classic/"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#4da3ff"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/pooled/"
+      },
+      "properties": [
+       {
+        "id": "custom.lineStyle",
+        "value": {
+         "fill": "dash",
+         "dash": [
+          6,
+          4
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": 6,
+   "type": "timeseries",
+   "title": "Th\u00f4ng l\u01b0\u1ee3ng \u2014 requests/gi\u00e2y",
+   "gridPos": {
+    "x": 0,
+    "y": 14,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "targets": [
+    {
+     "expr": "sum by (testid) (rate(k6_http_reqs_total[30s]))",
+     "legendFormat": "{{testid}}",
+     "refId": "A"
+    }
+   ],
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "reqps",
+     "custom": {
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/hybrid/"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#ff5d6c"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/classic/"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#4da3ff"
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": 7,
+   "type": "timeseries",
+   "title": "CPU theo container (cadvisor)",
+   "gridPos": {
+    "x": 12,
+    "y": 14,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "targets": [
+    {
+     "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{name=~\".*(nginx|api-).*\"}[1m]))",
+     "legendFormat": "{{name}}",
+     "refId": "A"
+    }
+   ],
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "custom": {
+      "lineWidth": 2,
+      "fillOpacity": 8
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/hybrid/"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#ff5d6c"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": "/classic/"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#4da3ff"
+        }
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
