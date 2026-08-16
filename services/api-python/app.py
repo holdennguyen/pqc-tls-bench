@@ -119,6 +119,11 @@ async def cache_set(key: str, value: str):
     await cache.set(key, value, ex=CACHE_TTL)
 
 
+@sensor(scope="cache", invariants=[cache_tls13, cache_group_matches_mode])
+async def cache_del(key: str):
+    await cache.delete(key)
+
+
 def _meta(request: Request, cache_status: str | None = None) -> dict:
     m = {
         "served_by": "python",
@@ -138,15 +143,52 @@ async def health(request: Request):
 
 
 @sensor(scope="db", invariants=[db_tls13, db_group_matches_mode])
-async def db_list(limit: int):
-    return await pool.fetch("SELECT * FROM records ORDER BY id LIMIT $1", limit)
+async def db_list(limit: int, offset: int, search: str | None):
+    # COUNT(*) OVER() rides along so list + total stay one round-trip
+    if search:
+        return await pool.fetch(
+            "SELECT *, COUNT(*) OVER() AS _total FROM records"
+            " WHERE patient_name ILIKE $1 OR diagnosis ILIKE $1"
+            " ORDER BY id LIMIT $2 OFFSET $3",
+            f"%{search}%", limit, offset,
+        )
+    return await pool.fetch(
+        "SELECT *, COUNT(*) OVER() AS _total FROM records ORDER BY id LIMIT $1 OFFSET $2",
+        limit, offset,
+    )
+
+
+@sensor(scope="db", invariants=[db_tls13, db_group_matches_mode])
+async def db_update(record_id: int, patient_name: str, dob: str, diagnosis: str, notes: str):
+    return await pool.fetchrow(
+        "UPDATE records SET patient_name=$2, dob=$3, diagnosis=$4, notes=$5"
+        " WHERE id=$1 RETURNING *",
+        record_id, patient_name, datetime.date.fromisoformat(dob), diagnosis, notes,
+    )
+
+
+@sensor(scope="db", invariants=[db_tls13, db_group_matches_mode])
+async def db_delete(record_id: int):
+    return await pool.fetchrow("DELETE FROM records WHERE id=$1 RETURNING id", record_id)
+
+
+def _validate_body(body: dict) -> None:
+    for field in ("patient_name", "dob", "diagnosis"):
+        if not body.get(field):
+            raise HTTPException(status_code=422, detail=f"missing field: {field}")
+    try:
+        datetime.date.fromisoformat(body["dob"])
+    except ValueError:
+        raise HTTPException(status_code=422, detail="invalid dob (expected YYYY-MM-DD)")
 
 
 @app.get("/records")
 @sensor(scope="handler", invariants=[mode_configured])
-async def list_records(request: Request, limit: int = 100):
-    rows = await db_list(min(limit, 200))
-    return {"records": [_rec_to_dict(r) for r in rows], "meta": _meta(request)}
+async def list_records(request: Request, limit: int = 100, offset: int = 0, search: str | None = None):
+    rows = await db_list(min(limit, 200), max(offset, 0), search)
+    m = _meta(request)
+    m["total"] = rows[0]["_total"] if rows else 0
+    return {"records": [_rec_to_dict(r) for r in rows], "meta": m}
 
 
 @app.get("/records/{record_id}")
@@ -168,13 +210,35 @@ async def get_record(record_id: int, request: Request):
 @sensor(scope="handler", invariants=[mode_configured])
 async def create_record(request: Request):
     body = await request.json()
-    for field in ("patient_name", "dob", "diagnosis"):
-        if not body.get(field):
-            raise HTTPException(status_code=422, detail=f"missing field: {field}")
+    _validate_body(body)
     row = await db_write(
         body["patient_name"], body["dob"], body["diagnosis"], body.get("notes", "")
     )
     return {"record": _rec_to_dict(row), "meta": _meta(request)}
+
+
+@app.put("/records/{record_id}")
+@sensor(scope="handler", invariants=[mode_configured])
+async def update_record(record_id: int, request: Request):
+    body = await request.json()
+    _validate_body(body)
+    row = await db_update(
+        record_id, body["patient_name"], body["dob"], body["diagnosis"], body.get("notes", "")
+    )
+    if row is None:
+        raise HTTPException(status_code=404, detail="record not found")
+    await cache_del(f"rec:{record_id}")
+    return {"record": _rec_to_dict(row), "meta": _meta(request)}
+
+
+@app.delete("/records/{record_id}")
+@sensor(scope="handler", invariants=[mode_configured])
+async def delete_record(record_id: int, request: Request):
+    row = await db_delete(record_id)
+    if row is None:
+        raise HTTPException(status_code=404, detail="record not found")
+    await cache_del(f"rec:{record_id}")
+    return {"deleted": record_id, "meta": _meta(request)}
 
 
 @app.get("/api/tls-info")

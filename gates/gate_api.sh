@@ -1,7 +1,7 @@
 #!/bin/sh
-# GATE: functional equivalence. All 3 endpoints correct on BOTH APIs via BOTH edges;
-# python-created record readable via node (shared DB); sensor lines present per service.
-# Runs on the host: needs curl + jq.
+# GATE: functional equivalence. Full CRUD + search correct on BOTH APIs via BOTH edges;
+# python-created record readable via node (shared DB); updates cross-visible; sensor
+# lines present per service. Runs on the host: needs curl + jq.
 fail=0
 STAMP=$(date +%s)
 
@@ -27,8 +27,13 @@ for port in 8443 8444; do
 
     # 2b) GET /records — list for the UI table (seeded 50 + gate-created rows)
     l=$(curl -sk "$base/records")
-    echo "$l" | jq -e '(.records | length) >= 50' >/dev/null \
+    echo "$l" | jq -e '(.records | length) >= 50 and (.meta.total >= 50)' >/dev/null \
       || { echo "LIST FAIL $mode/$api"; fail=1; }
+
+    # 2c) pagination: offset window must not overlap page 1, total unchanged
+    l2=$(curl -sk "$base/records?limit=5&offset=5")
+    echo "$l2" | jq -e '(.records | length) == 5 and (.records[0].id != '"$(echo "$l" | jq '.records[0].id')"')' >/dev/null \
+      || { echo "OFFSET FAIL $mode/$api: $l2"; fail=1; }
 
     # 3) POST /records — end-to-end write
     p=$(curl -sk -X POST "$base/records" -H 'content-type: application/json' \
@@ -41,9 +46,29 @@ for port in 8443 8444; do
     x=$(curl -sk "https://localhost:$port/$other/records/$id")
     echo "$x" | jq -e ".record.diagnosis == \"gate check\"" >/dev/null \
       || { echo "CROSS-READ FAIL $mode $api->$other id=$id: $x"; fail=1; }
+
+    # 5) search finds the record just created (ILIKE on name/diagnosis)
+    s=$(curl -sk "$base/records?search=Gate%20Test%20$mode-$api-$STAMP")
+    echo "$s" | jq -e "(.records | length) == 1 and .records[0].id == $id and .meta.total == 1" >/dev/null \
+      || { echo "SEARCH FAIL $mode/$api: $s"; fail=1; }
+
+    # 6) PUT round-trip: update via THIS api, read fresh (cache invalidated) via OTHER
+    u=$(curl -sk -X PUT "$base/records/$id" -H 'content-type: application/json' \
+      -d "{\"patient_name\":\"Gate Test $mode-$api-$STAMP\",\"dob\":\"1990-01-01\",\"diagnosis\":\"gate updated\",\"notes\":\"synthetic\"}")
+    echo "$u" | jq -e '.record.diagnosis == "gate updated"' >/dev/null \
+      || { echo "PUT FAIL $mode/$api: $u"; fail=1; }
+    x2=$(curl -sk "https://localhost:$port/$other/records/$id")
+    echo "$x2" | jq -e '.record.diagnosis == "gate updated"' >/dev/null \
+      || { echo "PUT CROSS-VISIBILITY FAIL $mode $api->$other id=$id: $x2"; fail=1; }
+
+    # 7) DELETE: gone afterwards (404), and PUT on the gone id also 404s
+    curl -sk -X DELETE "$base/records/$id" | jq -e ".deleted == $id" >/dev/null \
+      || { echo "DELETE FAIL $mode/$api id=$id"; fail=1; }
+    code=$(curl -sk -o /dev/null -w '%{http_code}' "$base/records/$id")
+    [ "$code" = 404 ] || { echo "DELETE NOT-GONE FAIL $mode/$api id=$id -> $code"; fail=1; }
   done
 
-  # 5) edge reports the negotiated H1 group to the app layer (X-TLS-Group -> edge_group).
+  # 8) edge reports the negotiated H1 group to the app layer (X-TLS-Group -> edge_group).
   # Host curl can't offer ML-KEM, so probe from the in-network OpenSSL 3.5 client
   # with the mode's group forced; the echoed header must match what was negotiated.
   [ "$port" = 8443 ] && edge=nginx-hybrid want=X25519MLKEM768 || edge=nginx-classic want=X25519
@@ -54,7 +79,7 @@ for port in 8443 8444; do
   [ "$g" = "$want" ] || { echo "EDGE GROUP FAIL $edge expected $want got $g"; fail=1; }
 done
 
-# 6) sensor lines present for every scope in every service
+# 9) sensor lines present for every scope in every service
 for svc in api-python-hybrid api-python-classic api-node-hybrid api-node-classic; do
   logs=$(docker compose logs --no-log-prefix "$svc" 2>/dev/null)
   for scope in handler db cache; do

@@ -56,9 +56,31 @@ const db_write = sensor('db', [db_tls13, db_group_matches_mode])(
   });
 
 const db_list = sensor('db', [db_tls13, db_group_matches_mode])(
-  async function db_list(limit: number) {
-    const r = await pool.query('SELECT * FROM records ORDER BY id LIMIT $1', [limit]);
+  async function db_list(limit: number, offset: number, search: string | null) {
+    // COUNT(*) OVER() rides along so list + total stay one round-trip
+    const r = search
+      ? await pool.query(
+          'SELECT *, COUNT(*) OVER() AS _total FROM records'
+          + ' WHERE patient_name ILIKE $1 OR diagnosis ILIKE $1'
+          + ' ORDER BY id LIMIT $2 OFFSET $3', [`%${search}%`, limit, offset])
+      : await pool.query(
+          'SELECT *, COUNT(*) OVER() AS _total FROM records ORDER BY id LIMIT $1 OFFSET $2',
+          [limit, offset]);
     return r.rows;
+  });
+
+const db_update = sensor('db', [db_tls13, db_group_matches_mode])(
+  async function db_update(id: number, patient_name: string, dob: string, diagnosis: string, notes: string) {
+    const r = await pool.query(
+      'UPDATE records SET patient_name=$2, dob=$3::date, diagnosis=$4, notes=$5 WHERE id=$1 RETURNING *',
+      [id, patient_name, dob, diagnosis, notes]);
+    return r.rows[0] ?? null;
+  });
+
+const db_delete = sensor('db', [db_tls13, db_group_matches_mode])(
+  async function db_delete(id: number) {
+    const r = await pool.query('DELETE FROM records WHERE id=$1 RETURNING id', [id]);
+    return r.rows[0] ?? null;
   });
 
 const cache_get = sensor('cache', [cache_tls13, cache_group_matches_mode])(
@@ -66,6 +88,9 @@ const cache_get = sensor('cache', [cache_tls13, cache_group_matches_mode])(
 
 const cache_set = sensor('cache', [cache_tls13, cache_group_matches_mode])(
   async function cache_set(key: string, value: string) { await cache.set(key, value, { EX: CACHE_TTL }); });
+
+const cache_del = sensor('cache', [cache_tls13, cache_group_matches_mode])(
+  async function cache_del(key: string) { await cache.del(key); });
 
 function recToDict(row: any) {
   return {
@@ -96,12 +121,26 @@ const health = sensor('handler', [mode_configured])(
     send(res, 200, { status: 'ok', api: 'node', mode: MODE });
   });
 
+function validBody(res: any, body: any): boolean {
+  for (const f of ['patient_name', 'dob', 'diagnosis']) {
+    if (!body?.[f]) { send(res, 422, { detail: `missing field: ${f}` }); return false; }
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(body.dob)) {
+    send(res, 422, { detail: 'invalid dob (expected YYYY-MM-DD)' }); return false;
+  }
+  return true;
+}
+
 const list_records = sensor('handler', [mode_configured])(
   async function list_records(req: any, res: any) {
     const url = new URL(req.url, 'https://x');
     const limit = Math.min(parseInt(url.searchParams.get('limit') || '100', 10), 200);
-    const rows = await db_list(limit);
-    send(res, 200, { records: rows.map(recToDict), meta: meta(req) });
+    const offset = Math.max(parseInt(url.searchParams.get('offset') || '0', 10), 0);
+    const search = url.searchParams.get('search');
+    const rows = await db_list(limit, offset, search);
+    const m = meta(req);
+    m.total = rows.length ? Number(rows[0]._total) : 0;
+    send(res, 200, { records: rows.map(recToDict), meta: m });
   });
 
 const get_record = sensor('handler', [mode_configured])(
@@ -118,11 +157,26 @@ const get_record = sensor('handler', [mode_configured])(
 
 const create_record = sensor('handler', [mode_configured])(
   async function create_record(req: any, res: any, body: any) {
-    for (const f of ['patient_name', 'dob', 'diagnosis']) {
-      if (!body?.[f]) return send(res, 422, { detail: `missing field: ${f}` });
-    }
+    if (!validBody(res, body)) return;
     const row = await db_write(body.patient_name, body.dob, body.diagnosis, body.notes ?? '');
     send(res, 201, { record: recToDict(row), meta: meta(req) });
+  });
+
+const update_record = sensor('handler', [mode_configured])(
+  async function update_record(req: any, res: any, id: number, body: any) {
+    if (!validBody(res, body)) return;
+    const row = await db_update(id, body.patient_name, body.dob, body.diagnosis, body.notes ?? '');
+    if (!row) return send(res, 404, { detail: 'record not found' });
+    await cache_del(`rec:${id}`);
+    send(res, 200, { record: recToDict(row), meta: meta(req) });
+  });
+
+const delete_record = sensor('handler', [mode_configured])(
+  async function delete_record(req: any, res: any, id: number) {
+    const row = await db_delete(id);
+    if (!row) return send(res, 404, { detail: 'record not found' });
+    await cache_del(`rec:${id}`);
+    send(res, 200, { deleted: id, meta: meta(req) });
   });
 
 const tls_info = sensor('handler', [mode_configured])(
@@ -150,6 +204,12 @@ async function route(req: any, res: any) {
       for await (const chunk of req) raw += chunk;
       return await create_record(req, res, raw ? JSON.parse(raw) : {});
     }
+    if (req.method === 'PUT' && recordMatch) {
+      let raw = '';
+      for await (const chunk of req) raw += chunk;
+      return await update_record(req, res, parseInt(recordMatch[1], 10), raw ? JSON.parse(raw) : {});
+    }
+    if (req.method === 'DELETE' && recordMatch) return await delete_record(req, res, parseInt(recordMatch[1], 10));
     send(res, 404, { detail: 'not found' });
   } catch (e: any) {
     console.error('[error]', e);
