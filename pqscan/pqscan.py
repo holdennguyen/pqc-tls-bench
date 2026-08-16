@@ -21,7 +21,7 @@ Usage:
 # your client first:  openssl s_client -connect pq.cloudflareresearch.com:443 \
 #   -groups X25519MLKEM768 -brief   # must show  Peer Temp Key: X25519MLKEM768
 # ---------------------------------------------------------------------------
-import argparse, json, subprocess, sys, os, re, datetime, html
+import argparse, json, socket, subprocess, sys, os, re, datetime, html
 
 # OpenSSL 3.5 -brief prints the negotiated group in TWO formats: hybrid/KEM groups as
 # "Negotiated TLS1.3 group: X25519MLKEM768", classical curves as "Peer Temp Key: X25519".
@@ -52,12 +52,12 @@ def scan_host(host, openssl_bin, timeout=5):
                                 "TOÀN BỘ lưu lượng đã ghi lại từ trước tới nay."}
             # Otherwise: distinguish "server unreachable/refused" from "TLS 1.3 worked but
             # WE failed to parse" — the latter is a scanner regression (false-0% class).
-            status = "parse-error" if connected else "error"
-            note = ("TLS connected but no group parsed — GROUP_RE regression? raw tail: "
-                    + out.strip().splitlines()[-1][:100]) if connected else \
-                   (out.strip().splitlines()[-1][:160] if out.strip() else "no response")
-            return {"host": host, "status": status, "protocol": proto,
-                    "negotiated_group": None, "supports_pqc": None, "note": note}
+            if not connected:
+                return _classify_unreachable(host, out.strip().splitlines()[-1][:160] if out.strip() else "no response")
+            return {"host": host, "status": "parse-error", "protocol": proto,
+                    "negotiated_group": None, "supports_pqc": None,
+                    "note": "TLS connected but no group parsed — GROUP_RE regression? raw tail: "
+                            + out.strip().splitlines()[-1][:100]}
         pqc = "MLKEM" in group.upper()
         if pqc:
             note = "Đã hỗ trợ trao đổi khóa hậu lượng tử — lưu lượng hôm nay an toàn trước tấn công thu thập-giải mã sau."
@@ -70,9 +70,39 @@ def scan_host(host, openssl_bin, timeout=5):
         return {"host": host, "status": "ok", "protocol": proto,
                 "negotiated_group": group, "supports_pqc": pqc, "note": note}
     except subprocess.TimeoutExpired:
-        return {"host": host, "status": "error", "negotiated_group": None, "supports_pqc": None, "note": "timeout"}
+        return _classify_unreachable(host, "timeout")
     except Exception as e:
         return {"host": host, "status": "error", "negotiated_group": None, "supports_pqc": None, "note": str(e)[:160]}
+
+
+def _tcp_open(host, port, timeout=3):
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except OSError:
+        return False
+
+
+def _classify_unreachable(host, raw_note):
+    """The TLS handshake produced no connection. Disambiguate by TCP:
+    - 443 accepts TCP but TLS died  -> server/WAF rejected OUR offer (browsers may be
+      fine) — an honest 'error', never 'no HTTPS' (bing/lazada do this: bot filters).
+    - 443 closed/filtered + 80 open -> genuinely HTTP-ONLY: readable TODAY, no
+      quantum computer required (field finding 16/08: nttu.edu.vn, most.gov.vn).
+    """
+    if _tcp_open(host, 443):
+        return {"host": host, "status": "error", "protocol": None,
+                "negotiated_group": None, "supports_pqc": None,
+                "note": f"cổng 443 MỞ nhưng từ chối bắt tay với chào của scanner "
+                        f"(WAF/lọc bot hoặc chỉ nhận nhóm khác): {raw_note}"}
+    if _tcp_open(host, 80):
+        return {"host": host, "status": "no-https", "protocol": None,
+                "negotiated_group": None, "supports_pqc": False,
+                "note": "KHÔNG có HTTPS: cổng 443 bị chặn/không mở nhưng cổng 80 (HTTP "
+                        "không mã hoá) đang hoạt động — mọi dữ liệu đọc được NGAY HÔM NAY, "
+                        "không cần chờ máy tính lượng tử."}
+    return {"host": host, "status": "error", "protocol": None,
+            "negotiated_group": None, "supports_pqc": None, "note": raw_note}
 
 def render_html(results, meta):
     ok = [r for r in results if r["status"] == "ok"]
@@ -80,8 +110,11 @@ def render_html(results, meta):
     n, n_ok, n_pqc = len(results), len(ok), len(pqc)
     pct = (100.0 * n_pqc / n_ok) if n_ok else 0.0
     rows = []
-    for r in sorted(results, key=lambda x: (x["status"] != "ok", not (x["supports_pqc"] or False), x["host"])):
-        if r["status"] != "ok":
+    order = {"ok": 0, "no-https": 1}
+    for r in sorted(results, key=lambda x: (order.get(x["status"], 2), not (x["supports_pqc"] or False), x["host"])):
+        if r["status"] == "no-https":
+            badge = '<span class="b http">chỉ HTTP</span>'; grp = "không mã hoá"
+        elif r["status"] != "ok":
             badge = '<span class="b err">lỗi</span>'; grp = "—"
         elif r["supports_pqc"]:
             badge = '<span class="b yes">PQC ✓</span>'; grp = r["negotiated_group"]
@@ -100,7 +133,7 @@ def render_html(results, meta):
  table{{width:100%;border-collapse:collapse;background:#fff;border:1px solid rgba(11,11,11,.1);border-radius:12px;overflow:hidden;font-size:13.5px}}
  th{{text-align:left;padding:10px 12px;background:#eef1fb;font-size:12px}} td{{padding:9px 12px;border-top:1px solid #eee}}
  .b{{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}}
- .yes{{background:#e3f4e3;color:#0a6b0a}} .no{{background:#fdeaea;color:#a02020}} .err{{background:#eee;color:#666}}
+ .yes{{background:#e3f4e3;color:#0a6b0a}} .no{{background:#fdeaea;color:#a02020}} .err{{background:#eee;color:#666}} .http{{background:#fff3e0;color:#b45309}}
  .note{{color:#4a5171;font-size:12px;max-width:420px}} code{{font-size:12px}}
 </style></head><body><div class="wrap">
 <h1>pqscan — khảo sát mức độ sẵn sàng hậu lượng tử</h1>
