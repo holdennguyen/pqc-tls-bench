@@ -114,6 +114,9 @@ for (const edge of EDGES) {
   for (const scope of ['api', 'route', 'auth']) {
     if (!sensors.some((s) => s.scope === scope)) note(`${tag}: no sensor line for scope "${scope}"`);
   }
+  if (sensors.some((s) => !s.fn || s.fn === 'anonymous')) {
+    note(`${tag}: sensor line lost its fn name (minifier stripped Function.name?)`);
+  }
   const failedInv = sensors.flatMap((s) => s.invariant_results.filter((i) => !i.pass).map((i) => `${s.fn}/${i.name}`));
   if (failedInv.length) note(`${tag}: failed invariants: ${[...new Set(failedInv)].join(', ')}`);
   if (errors.length) note(`${tag}: browser errors:\n  ${errors.join('\n  ')}`);

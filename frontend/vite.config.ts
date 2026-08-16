@@ -7,5 +7,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   base: '/app/',
+  // keepNames: sensor lines carry fn via Function.name — minification must not strip it
+  esbuild: { keepNames: true },
   build: { outDir: '../static/app', emptyOutDir: true },
 });

@@ -2,6 +2,7 @@ results/*.pcap
 results/bench_run.log
 certs/*.key
 node_modules/
+frontend/e2e/shots/
 __pycache__/
 .DS_Store
 _to_delete/

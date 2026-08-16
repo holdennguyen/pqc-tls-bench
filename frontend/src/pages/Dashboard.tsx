@@ -53,6 +53,18 @@ export default function Dashboard() {
           <Link to="/records">Xem danh sách hồ sơ</Link> · <Link to="/records/new">Tạo hồ sơ mới</Link>
         </p>
       </div>
+
+      <div className="panel">
+        <h2>Hai cổng, một biến số</h2>
+        <p style={{ color: 'var(--muted)', fontSize: 13, margin: '0 0 10px' }}>
+          Ứng dụng này được phục vụ y hệt ở hai cổng — khác biệt duy nhất là nhóm trao đổi khóa của TLS.
+        </p>
+        <p style={{ margin: 0 }} className="mono">
+          <a href="https://localhost:8443/app/" style={{ color: 'var(--hybrid)' }}>:8443 lai ghép — X25519MLKEM768</a>
+          {' · '}
+          <a href="https://localhost:8444/app/" style={{ color: 'var(--classic)' }}>:8444 cổ điển — X25519</a>
+        </p>
+      </div>
     </>
   );
 }

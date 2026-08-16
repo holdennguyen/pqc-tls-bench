@@ -182,6 +182,7 @@ input[type='text'], input[type='date'], input[type='search'], input[type='passwo
   padding: 9px 12px;
   width: 100%;
 }
+.topbar select { width: auto; }
 textarea { resize: vertical; min-height: 70px; }
 label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 5px; }
 
